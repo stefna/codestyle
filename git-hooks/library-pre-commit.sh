@@ -28,7 +28,7 @@ done
 
 if [ "$FILES" != "" ]
 then
-    echo "Running Code Sniffer. Code standard PSR2."
+    echo "Running Code Sniffer. Code standard Stefna Library."
     ./vendor/bin/phpcs --standard=@@CODESTYLE_PATH@@library.xml --encoding=utf-8 -n -p $FILES
     if [ $? != 0 ]
     then
