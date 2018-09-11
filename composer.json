@@ -1,0 +1,22 @@
+{
+    "name": "stefna/codestyle",
+    "description": "Custom php sniffer for stefna",
+    "authors": [
+        {
+            "name": "Andreas",
+            "email": "andreas@stefna.is"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Stefna\\": "src/Stefna/"
+        }
+    },
+    "require": {
+        "php": "^7.1",
+        "squizlabs/php_codesniffer": "^3.0.0"
+    },
+    "bin": [
+        "bin/stefna-hook-install"
+    ]
+}

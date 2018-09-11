@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<ruleset name="codestyle">
+    <description>Stefna coding standard.</description>
+    <arg name="tab-width" value="4"/>
+
+    <!-- 2. General -->
+
+    <!-- 2.1 Basic Coding Standard -->
+    <rule ref="./src/Stefna" />
+
+    <!-- Include the whole PSR-2 standard -->
+    <rule ref="PSR2">
+        <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
+        <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace"/>
+    </rule>
+
+    <!-- 2.3 Lines -->
+    <!-- 2.4 Indenting -->
+
+    <!-- Code MUST use an indent of 4 spaces, and MUST NOT use tabs for indenting. -->
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="ignoreIndentationTokens" type="array">
+                <element value="T_COMMENT"/>
+                <element value="T_DOC_COMMENT_OPEN_TAG"/>
+            </property>
+            <property name="tabIndent" value="true"/>
+        </properties>
+    </rule>
+    <rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
+
+    <rule ref="Stefna.ControlStructures.ElseCatch"/>
+    <rule ref="Stefna.ControlStructures.ControlSignature"/>
+</ruleset>
