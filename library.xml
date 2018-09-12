@@ -29,6 +29,15 @@
     </rule>
     <rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
 
+    <!-- Doc block rules -->
+    <rule ref="Stefna.Commenting.DocComment">
+        <exclude name="Stefna.Commenting.DocComment.TagValueIndent"/>
+        <exclude name="Stefna.Commenting.DocComment.NonParamGroup"/>
+    </rule>
+    <rule ref="Stefna.Commenting.DocComment.MissingShort">
+        <type>warning</type>
+    </rule>
+
     <rule ref="Stefna.ControlStructures.ElseCatch"/>
     <rule ref="Stefna.ControlStructures.ControlSignature"/>
 </ruleset>
