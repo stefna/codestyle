@@ -19,9 +19,9 @@ if [ $1 = "library" ]; then
 		echo "Creating default code style for phpstorm"
 		mkdir -p .idea/codeStyles/
 		cp ${REPO_DIR}/phpstorm/php-codestyle.xml .idea/codeStyles/Project.xml
-		php ${BIN_DIR}/install-composer-scripts.php
 	fi
 
+	php ${BIN_DIR}/install-composer-scripts.php
 	source "$BIN_DIR/install-library-hook.sh"
 	exit
 else
