@@ -38,6 +38,18 @@
         <type>warning</type>
     </rule>
 
+
+    <!-- Array code styles-->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax.Found"/>
+
+    <!-- Enforce trailing comma in arrays -->
+    <rule ref="Squiz.Arrays.ArrayDeclaration">
+        <exclude name="Squiz.Arrays.ArrayDeclaration.ValueNotAligned" />
+        <exclude name="Squiz.Arrays.ArrayDeclaration.CloseBraceNotAligned" />
+    </rule>
+
+    <!-- special rules for else, elseif, catch, finally -->
     <rule ref="Stefna.ControlStructures.ElseCatch"/>
+    <!-- needed special control structure check to not collide with ElseCatch -->
     <rule ref="Stefna.ControlStructures.ControlSignature"/>
 </ruleset>
