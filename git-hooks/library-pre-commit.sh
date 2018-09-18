@@ -34,7 +34,7 @@ then
     then
         echo "Fix the error before commit!"
         echo "Run"
-        echo "  ./vendor/bin/phpcbf $FILES"
+        echo "  ./vendor/bin/phpcbf --standard=@@CODESTYLE_PATH@@library.xml --encoding=utf-8 $FILES"
         echo "for automatic fix or fix it manually."
         exit 1
     fi
