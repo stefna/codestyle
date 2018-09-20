@@ -34,7 +34,7 @@ class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenti
 		for ($i = $stackPtr; $i < $commentEnd; $i++) {
 			if ($tokens[$i]['code'] === T_DOC_COMMENT_TAG) {
 				$tagCount++;
-				$ignore = \in_array($tokens[$i]['content'], ['@inheritdoc'], true);
+				$ignore = \in_array($tokens[$i]['content'], ['@inheritdoc', '@noinspection'], true);
 				$fixable = \in_array($tokens[$i]['content'], ['@var', '@type'], true);
 			}
 		}
