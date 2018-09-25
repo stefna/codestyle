@@ -29,18 +29,43 @@ class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenti
 			}
 		}
 		$tagCount = 0;
+		$onlyClassTags = null;
 		$fixable = false;
 		$ignore = false;
+		$ignoreIfContent = false;
+		$hasContent = false;
+		$currentTagLine = -1;
 		for ($i = $stackPtr; $i < $commentEnd; $i++) {
+			if ($tokens[$i]['code'] === T_DOC_COMMENT_STRING && $currentTagLine !== $tokens[$i]['line']) {
+				$hasContent = true;
+			}
 			if ($tokens[$i]['code'] === T_DOC_COMMENT_TAG) {
+				$currentTagLine = $tokens[$i]['line'];
 				$tagCount++;
 				$ignore = \in_array($tokens[$i]['content'], ['@inheritdoc', '@noinspection'], true);
+				$ignoreIfContent = \in_array($tokens[$i]['content'], ['@return'], true);
 				$fixable = \in_array($tokens[$i]['content'], ['@var', '@type'], true);
+
+				if ($onlyClassTags !== false) {
+					$onlyClassTags = \in_array($tokens[$i]['content'], ['@property', '@property-read', '@property-write', '@method'], true);
+				}
 			}
 		}
 
-		if ($ignore) {
-			return ;
+		if ($ignoreIfContent) {
+			//ignore @return without description
+			if (!$hasContent && $tagCount === 1) {
+				return ;
+			}
+		}
+		elseif ($onlyClassTags) {
+			//ignore rules if there are only @property and @method tags
+			if (!$hasContent) {
+				return;
+			}
+		}
+		elseif ($ignore || $hasContent) {
+			return;
 		}
 
 		if ($tagCount === 1 && $fixable) {
