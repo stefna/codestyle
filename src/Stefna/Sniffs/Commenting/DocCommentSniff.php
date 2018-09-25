@@ -18,6 +18,7 @@ class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenti
 	 */
 	public function process(File $phpcsFile, $stackPtr)
 	{
+
 		$tokens       = $phpcsFile->getTokens();
 		$commentEnd   = $phpcsFile->findNext(T_DOC_COMMENT_CLOSE_TAG, ($stackPtr + 1));
 		$commentStart = $tokens[$commentEnd]['comment_opener'];
@@ -28,6 +29,7 @@ class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenti
 				return;
 			}
 		}
+
 		$tagCount = 0;
 		$onlyClassTags = null;
 		$fixable = false;
@@ -64,11 +66,11 @@ class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenti
 				return;
 			}
 		}
-		elseif ($ignore || $hasContent) {
+		elseif ($ignore && !$hasContent) {
 			return;
 		}
 
-		if ($tagCount === 1 && $fixable) {
+		if ($tagCount === 1 && $fixable && !$hasContent) {
 			$error = 'Comments with only @var should be on one line';
 			$fix = $phpcsFile->addFixableError($error, $stackPtr, 'OneLineTypeDeclare');
 			if ($fix === true) {
