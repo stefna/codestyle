@@ -11,16 +11,16 @@ class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenti
 	 * Processes this test, when one of its tokens is encountered.
 	 *
 	 * @param File $phpcsFile The file being scanned.
-	 * @param int  $stackPtr  The position of the current token
-	 *                        in the stack passed in $tokens.
+	 * @param int $stackPtr The position of the current token
+	 *                      in the stack passed in $tokens.
 	 *
 	 * @return void
 	 */
 	public function process(File $phpcsFile, $stackPtr)
 	{
 
-		$tokens       = $phpcsFile->getTokens();
-		$commentEnd   = $phpcsFile->findNext(T_DOC_COMMENT_CLOSE_TAG, ($stackPtr + 1));
+		$tokens = $phpcsFile->getTokens();
+		$commentEnd = $phpcsFile->findNext(T_DOC_COMMENT_CLOSE_TAG, ($stackPtr + 1));
 		$commentStart = $tokens[$commentEnd]['comment_opener'];
 		if ($tokens[$commentStart]['line'] === $tokens[$commentEnd]['line']) {
 			$commentText = $phpcsFile->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);
@@ -49,7 +49,8 @@ class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenti
 				$fixable = \in_array($tokens[$i]['content'], ['@var', '@type'], true);
 
 				if ($onlyClassTags !== false) {
-					$onlyClassTags = \in_array($tokens[$i]['content'], ['@property', '@property-read', '@property-write', '@method'], true);
+					$onlyClassTags = \in_array($tokens[$i]['content'],
+						['@property', '@property-read', '@property-write', '@method'], true);
 				}
 			}
 		}
@@ -57,7 +58,7 @@ class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenti
 		if ($ignoreIfContent) {
 			//ignore @return without description
 			if (!$hasContent && $tagCount === 1) {
-				return ;
+				return;
 			}
 		}
 		elseif ($onlyClassTags) {
@@ -91,5 +92,5 @@ class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenti
 		}
 
 		parent::process($phpcsFile, $stackPtr);
-	}//end process()
-}//end class
+	}
+}

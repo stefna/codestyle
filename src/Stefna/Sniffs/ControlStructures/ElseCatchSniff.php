@@ -15,7 +15,7 @@ class ElseCatchSniff extends AbstractPatternSniff
 	 */
 	protected function getPatterns()
 	{
-		return array(
+		return [
 			"try {EOL...}EOL",
 			"}EOLcatch (...) {EOL...}EOL",
 			"do {EOL...}EOL",
@@ -30,6 +30,6 @@ class ElseCatchSniff extends AbstractPatternSniff
 			"}EOLelse if (...) try {EOL...}EOL",
 			"}EOLelseif (...) try {EOL...}EOL",
 			"}EOLelse throw ",
-		);
+		];
 	}
 }
