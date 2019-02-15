@@ -2,6 +2,7 @@
 <ruleset name="codestyle">
     <description>Stefna coding standard.</description>
     <arg name="tab-width" value="4"/>
+    <arg name="parallel" value="100"/>
 
     <!-- 2. General -->
 
