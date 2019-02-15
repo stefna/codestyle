@@ -14,7 +14,11 @@ if (!isset($composer->scripts)) {
 	$composer->scripts = new stdClass();
 }
 
-$args = '--standard=vendor/stefna/codestyle/library.xml src/ tests/';
+$args = '--standard=vendor/stefna/codestyle/library.xml src/';
+
+if (file_exists('tests/')) {
+	$args .= ' tests/';
+}
 
 $composer->scripts->check = './vendor/bin/phpcs ' . $args;
 $composer->scripts->fix = './vendor/bin/phpcbf ' . $args;
