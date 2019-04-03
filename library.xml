@@ -42,6 +42,7 @@
 
     <!-- Array code styles-->
     <rule ref="Generic.Arrays.DisallowLongArraySyntax.Found"/>
+    <rule ref="Generic.Arrays.ArrayIndent"/>
 
     <!-- Enforce trailing comma in arrays -->
     <rule ref="Squiz.Arrays.ArrayDeclaration">
