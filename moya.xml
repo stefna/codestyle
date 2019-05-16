@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<ruleset name="codestyle">
+    <description>Stefna coding standard.</description>
+    <arg name="tab-width" value="4"/>
+    <arg name="parallel" value="100"/>
+
+    <!-- 2. General -->
+
+    <!-- 2.1 Basic Coding Standard -->
+    <rule ref="./src/Stefna" />
+
+    <!-- Include the whole PSR-2 standard -->
+    <rule ref="PSR2">
+        <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
+        <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace"/>
+    </rule>
+    <rule ref="PSR1">
+        <exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
+        <exclude name="Squiz.Classes.ValidClassName.NotCamelCaps"/>
+    </rule>
+
+    <!-- 2.3 Lines -->
+    <!-- 2.4 Indenting -->
+
+    <!-- Code MUST use an indent of 4 spaces, and MUST NOT use tabs for indenting. -->
+    <rule ref="Generic.WhiteSpace.ScopeIndent">
+        <properties>
+            <property name="ignoreIndentationTokens" type="array">
+                <element value="T_COMMENT"/>
+                <element value="T_DOC_COMMENT_OPEN_TAG"/>
+            </property>
+            <property name="tabIndent" value="true"/>
+        </properties>
+    </rule>
+    <rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
+
+    <!-- Doc block rules -->
+    <rule ref="Stefna.Commenting.DocComment">
+        <exclude name="Stefna.Commenting.DocComment.TagValueIndent"/>
+        <exclude name="Stefna.Commenting.DocComment.NonParamGroup"/>
+    </rule>
+    <rule ref="Stefna.Commenting.DocComment.MissingShort">
+        <type>warning</type>
+    </rule>
+
+
+    <!-- Array code styles-->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax.Found"/>
+    <rule ref="Generic.Arrays.ArrayIndent"/>
+
+    <!-- Enforce trailing comma in arrays -->
+    <rule ref="Squiz.Arrays.ArrayDeclaration">
+        <exclude name="Squiz.Arrays.ArrayDeclaration.ValueNotAligned" />
+        <exclude name="Squiz.Arrays.ArrayDeclaration.CloseBraceNotAligned" />
+        <exclude name="Squiz.Arrays.ArrayDeclaration.DoubleArrowNotAligned" />
+        <exclude name="Squiz.Arrays.ArrayDeclaration.KeyNotAligned" />
+        <exclude name="Squiz.Arrays.ArrayDeclaration.MultiLineNotAllowed" />
+        <exclude name="Squiz.Arrays.ArrayDeclaration.SingleLineNotAllowed"/>
+        <exclude name="Squiz.Arrays.ArrayDeclaration.NoKeySpecified"/>
+    </rule>
+
+    <!-- special rules for else, elseif, catch, finally -->
+    <rule ref="Stefna.ControlStructures.ElseCatch"/>
+    <!-- needed special control structure check to not collide with ElseCatch -->
+    <rule ref="Stefna.ControlStructures.ControlSignature"/>
+</ruleset>
