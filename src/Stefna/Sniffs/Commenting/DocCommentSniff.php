@@ -7,6 +7,8 @@ use PHP_CodeSniffer\Files\File;
 
 class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenting\DocCommentSniff
 {
+	private const ALLOWED_ONE_LINE_COMMENTS = ['@var', '@type', '@lang', '@noinspection'];
+
 	/**
 	 * Processes this test, when one of its tokens is encountered.
 	 *
@@ -24,7 +26,8 @@ class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenti
 		$commentStart = $tokens[$commentEnd]['comment_opener'];
 		if ($tokens[$commentStart]['line'] === $tokens[$commentEnd]['line']) {
 			$commentText = $phpcsFile->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);
-			if (strpos($commentText, '@var') !== false || strpos($commentText, '@type') !== false) {
+			[, $commentType] = explode(' ', $commentText);
+			if (in_array($commentType, self::ALLOWED_ONE_LINE_COMMENTS, true)) {
 				// Skip inline block comments with variable type definition.
 				return;
 			}
