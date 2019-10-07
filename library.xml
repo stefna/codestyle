@@ -34,11 +34,8 @@
     <rule ref="Stefna.Commenting.DocComment">
         <exclude name="Stefna.Commenting.DocComment.TagValueIndent"/>
         <exclude name="Stefna.Commenting.DocComment.NonParamGroup"/>
+        <exclude name="Stefna.Commenting.DocComment.MissingShort" />
     </rule>
-    <rule ref="Stefna.Commenting.DocComment.MissingShort">
-        <type>warning</type>
-    </rule>
-
 
     <!-- Array code styles-->
     <rule ref="Generic.Arrays.DisallowLongArraySyntax.Found"/>
