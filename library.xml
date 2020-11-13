@@ -41,6 +41,10 @@
     <rule ref="Generic.Arrays.DisallowLongArraySyntax.Found"/>
     <rule ref="Generic.Arrays.ArrayIndent"/>
 
+    <rule ref="Squiz.WhiteSpace.ScopeClosingBrace">
+        <exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore" />
+    </rule>
+
     <!-- Enforce trailing comma in arrays -->
     <rule ref="Squiz.Arrays.ArrayDeclaration">
         <exclude name="Squiz.Arrays.ArrayDeclaration.ValueNotAligned" />
@@ -56,4 +60,5 @@
     <rule ref="Stefna.ControlStructures.ElseCatch"/>
     <!-- needed special control structure check to not collide with ElseCatch -->
     <rule ref="Stefna.ControlStructures.ControlSignature"/>
+    <rule ref="Stefna.ControlStructures.ScopeClosingBrace"/>
 </ruleset>
