@@ -13,6 +13,7 @@
     <rule ref="PSR2">
         <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace"/>
+        <exclude name="PSR1.Methods.CamelCapsMethodName"/>
     </rule>
 
     <!-- 2.3 Lines -->
@@ -61,4 +62,5 @@
     <!-- needed special control structure check to not collide with ElseCatch -->
     <rule ref="Stefna.ControlStructures.ControlSignature"/>
     <rule ref="Stefna.ControlStructures.ScopeClosingBrace"/>
+    <rule ref="Stefna.Naming.CamelCapsMethodName"/>
 </ruleset>
