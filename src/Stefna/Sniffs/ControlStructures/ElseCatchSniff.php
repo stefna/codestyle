@@ -16,8 +16,6 @@ class ElseCatchSniff extends AbstractPatternSniff
 	protected function getPatterns()
 	{
 		return [
-			"try {EOL...}EOL",
-			"}EOLcatch (...) {EOL...}EOL",
 			"do {EOL...}EOL",
 			"while (...) {EOL...}EOL",
 			"for (...) {EOL",

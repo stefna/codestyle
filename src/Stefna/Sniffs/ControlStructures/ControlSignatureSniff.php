@@ -42,9 +42,6 @@ class ControlSignatureSniff implements Sniff
 	public function register()
 	{
 		return [
-			T_TRY,
-			T_CATCH,
-			T_FINALLY,
 			T_DO,
 			T_WHILE,
 			T_FOR,

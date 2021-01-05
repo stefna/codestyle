@@ -13,6 +13,7 @@
     <rule ref="PSR2">
         <exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
         <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace"/>
+		<exclude name="Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace" />
         <exclude name="PSR1.Methods.CamelCapsMethodName"/>
     </rule>
 
@@ -58,7 +59,8 @@
     </rule>
 
     <!-- special rules for else, elseif, catch, finally -->
-    <rule ref="Stefna.ControlStructures.ElseCatch"/>
+	<rule ref="Stefna.ControlStructures.ElseCatch"/>
+	<rule ref="Stefna.ControlStructures.TryCatchDeclaration"/>
     <!-- needed special control structure check to not collide with ElseCatch -->
     <rule ref="Stefna.ControlStructures.ControlSignature"/>
     <rule ref="Stefna.ControlStructures.ScopeClosingBrace"/>
