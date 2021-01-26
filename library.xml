@@ -45,7 +45,6 @@
 
     <rule ref="Squiz.WhiteSpace.ScopeClosingBrace">
 		<exclude name="Squiz.WhiteSpace.ScopeClosingBrace.ContentBefore" />
-		<exclude name="Squiz.WhiteSpace.ScopeKeywordSpacing.Incorrect" />
     </rule>
 
     <!-- Enforce trailing comma in arrays -->
@@ -59,7 +58,6 @@
         <exclude name="Squiz.Arrays.ArrayDeclaration.NoKeySpecified"/>
     </rule>
 
-	<rule ref="Stefna.WhiteSpace.ScopeKeywordSpacing"/>
     <!-- special rules for else, elseif, catch, finally -->
 	<rule ref="Stefna.ControlStructures.ElseCatch"/>
 	<rule ref="Stefna.ControlStructures.TryCatchDeclaration"/>
