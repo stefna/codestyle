@@ -79,6 +79,16 @@ final class ScopeClosingBraceSniff implements Sniff
 				$abortWithError = false;
 			}
 
+			if (in_array($tokens[$lineStart]['code'], [
+					T_PUBLIC,
+					T_PRIVATE,
+					T_PROTECTED,
+				], true) &&
+				isset($tokens[$lineStart + 4]['content']) &&
+				$tokens[$lineStart + 4]['content'] === '__construct'
+			) {
+				$abortWithError = false;
+			}
 
 			if ($abortWithError) {
 				$error = 'Closing brace must be on a line by itself';
