@@ -8,15 +8,12 @@ use PHP_CodeSniffer\Util\Common;
 
 final class CamelCapsMethodNameSniff extends GenericCamelCapsFunctionNameSniff
 {
-
-
 	/**
 	 * Processes the tokens within the scope.
 	 *
 	 * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being processed.
-	 * @param int                         $stackPtr  The position where this token was
-	 *                                               found.
-	 * @param int                         $currScope The position of the current scope.
+	 * @param int $stackPtr The position where this token was found.
+	 * @param int $currScope The position of the current scope.
 	 *
 	 * @return void
 	 */
@@ -53,17 +50,18 @@ final class CamelCapsMethodNameSniff extends GenericCamelCapsFunctionNameSniff
 		}
 
 		$testName = ltrim($methodName, '_');
-		if ($testName !== '' &&  Common::isCamelCaps($testName, false, true, false) === false) {
-			$error     = 'Method name "%s" is not in camel caps format';
+		if ($testName !== '' && Common::isCamelCaps($testName, false, true, false) === false) {
+			$error = 'Method name "%s" is not in camel caps format';
 			$className = $phpcsFile->getDeclarationName($currScope);
 			if (isset($className) === false) {
 				$className = '[Anonymous Class]';
 			}
 
-			$errorData = [$className.'::'.$methodName];
+			$errorData = [$className . '::' . $methodName];
 			$phpcsFile->addError($error, $stackPtr, 'NotCamelCaps', $errorData);
 			$phpcsFile->recordMetric($stackPtr, 'CamelCase method name', 'no');
-		} else {
+		}
+		else {
 			$phpcsFile->recordMetric($stackPtr, 'CamelCase method name', 'yes');
 		}
 
@@ -74,8 +72,7 @@ final class CamelCapsMethodNameSniff extends GenericCamelCapsFunctionNameSniff
 	 * Processes the tokens outside the scope.
 	 *
 	 * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being processed.
-	 * @param int                         $stackPtr  The position where this token was
-	 *                                               found.
+	 * @param int $stackPtr The position where this token was found.
 	 *
 	 * @return void
 	 */
@@ -83,6 +80,4 @@ final class CamelCapsMethodNameSniff extends GenericCamelCapsFunctionNameSniff
 	{
 
 	}//end processTokenOutsideScope()
-
-
 }//end class

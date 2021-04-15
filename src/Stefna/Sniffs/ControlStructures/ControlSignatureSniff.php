@@ -9,13 +9,12 @@
 
 namespace Stefna\Sniffs\ControlStructures;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 
 class ControlSignatureSniff implements Sniff
 {
-
 	/**
 	 * How many spaces should precede the colon if using alternative syntax.
 	 *
@@ -32,7 +31,6 @@ class ControlSignatureSniff implements Sniff
 		'PHP',
 		'JS',
 	];
-
 
 	/**
 	 * Returns an array of tokens this test wants to listen for.
@@ -59,8 +57,7 @@ class ControlSignatureSniff implements Sniff
 	 * Processes this test, when one of its tokens is encountered.
 	 *
 	 * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
-	 * @param int $stackPtr The position of the current token in the
-	 *                      stack passed in $tokens.
+	 * @param int $stackPtr The position of the current token in the stack passed in $tokens.
 	 *
 	 * @return void
 	 */

@@ -2,7 +2,6 @@
 
 namespace Stefna\Sniffs\Commenting;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
 
 class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenting\DocCommentSniff
@@ -13,8 +12,7 @@ class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenti
 	 * Processes this test, when one of its tokens is encountered.
 	 *
 	 * @param File $phpcsFile The file being scanned.
-	 * @param int $stackPtr The position of the current token
-	 *                      in the stack passed in $tokens.
+	 * @param int $stackPtr The position of the current token in the stack passed in $tokens.
 	 *
 	 * @return void
 	 */
