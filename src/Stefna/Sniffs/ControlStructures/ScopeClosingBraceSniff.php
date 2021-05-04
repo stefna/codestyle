@@ -78,13 +78,16 @@ final class ScopeClosingBraceSniff implements Sniff
 				$abortWithError = false;
 			}
 
-			if (in_array($tokens[$lineStart]['code'], [
+			$lineIsFinal = $tokens[$lineStart]['code'] === T_FINAL;
+			$lineStartNr = $lineIsFinal ? $lineStart + 2 : $lineStart;
+
+			if (in_array($tokens[$lineStartNr]['code'], [
 					T_PUBLIC,
 					T_PRIVATE,
 					T_PROTECTED,
 				], true) &&
-				isset($tokens[$lineStart + 4]['content']) &&
-				$tokens[$lineStart + 4]['content'] === '__construct'
+				isset($tokens[$lineStartNr + 4]['content']) &&
+				$tokens[$lineStartNr + 4]['content'] === '__construct'
 			) {
 				$abortWithError = false;
 			}
