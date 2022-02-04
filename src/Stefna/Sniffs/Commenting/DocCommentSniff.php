@@ -6,7 +6,14 @@ use PHP_CodeSniffer\Files\File;
 
 class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenting\DocCommentSniff
 {
-	private const ALLOWED_ONE_LINE_COMMENTS = ['@var', '@type', '@lang', '@noinspection'];
+	private const ALLOWED_ONE_LINE_COMMENTS = [
+		'@var',
+		'@type',
+		'@lang',
+		'@noinspection',
+		'@use',
+		'@phpstan-ignore-next-line',
+	];
 
 	/**
 	 * Processes this test, when one of its tokens is encountered.
