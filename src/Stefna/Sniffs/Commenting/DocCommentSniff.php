@@ -8,6 +8,7 @@ class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenti
 {
 	private const ALLOWED_ONE_LINE_COMMENTS = [
 		'@var',
+		'@phpstan-var',
 		'@type',
 		'@lang',
 		'@noinspection',
