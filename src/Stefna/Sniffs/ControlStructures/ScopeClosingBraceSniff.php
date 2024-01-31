@@ -47,6 +47,15 @@ final class ScopeClosingBraceSniff implements Sniff
 			$lineStart = $phpcsFile->findFirstOnLine([T_WHITESPACE, T_INLINE_HTML], ($lineStart - 1), true);
 		}
 
+		// Check if first token is a closing bracket and if so find next
+		// this is because the check for closing bracket is done in BracketPlacementSniff
+		// it also fixes the issue
+		$indentCheck = true;
+		if ($tokens[$lineStart]['code'] === T_CLOSE_CURLY_BRACKET) {
+			$lineStart = $phpcsFile->findNext([T_WHITESPACE, T_CLOSE_CURLY_BRACKET], $lineStart, exclude: true);
+			$indentCheck = false;
+		}
+
 		$startColumn = $tokens[$lineStart]['column'];
 		$scopeStart = $tokens[$stackPtr]['scope_opener'];
 		$scopeEnd = $tokens[$stackPtr]['scope_closer'];
@@ -101,6 +110,10 @@ final class ScopeClosingBraceSniff implements Sniff
 
 				return;
 			}
+		}
+
+		if (!$indentCheck) {
+			return;
 		}
 
 		// Check now that the closing brace is lined up correctly.
