@@ -68,4 +68,6 @@
 	<rule ref="Stefna.ControlStructures.ControlSignature"/>
 	<rule ref="Stefna.ControlStructures.ScopeClosingBrace"/>
 	<rule ref="Stefna.Naming.CamelCapsMethodName"/>
+
+	<rule ref="Squiz.Strings.DoubleQuoteUsage"/>
 </ruleset>
