@@ -90,13 +90,14 @@ final class ScopeClosingBraceSniff implements Sniff
 			$lineIsFinal = $tokens[$lineStart]['code'] === T_FINAL;
 			$lineStartNr = $lineIsFinal ? $lineStart + 2 : $lineStart;
 
-			if (in_array($tokens[$lineStartNr]['code'], [
+			if (
+				in_array($tokens[$lineStartNr]['code'], [
 					T_PUBLIC,
 					T_PRIVATE,
 					T_PROTECTED,
-				], true) &&
-				isset($tokens[$lineStartNr + 4]['content']) &&
-				$tokens[$lineStartNr + 4]['content'] === '__construct'
+				], true)
+				&& isset($tokens[$lineStartNr + 4]['content'])
+				&& $tokens[$lineStartNr + 4]['content'] === '__construct'
 			) {
 				$abortWithError = false;
 			}
@@ -109,6 +110,22 @@ final class ScopeClosingBraceSniff implements Sniff
 				}
 
 				return;
+			}
+		}
+
+		if ($tokens[$stackPtr]['code'] === T_FUNCTION) {
+			$funcToken = $tokens[$stackPtr];
+			$funcNamePtr = $phpcsFile->findNext([T_STRING], $stackPtr);
+			$openingCurly = $tokens[$funcToken['scope_opener']];
+			$closingCurly = $tokens[$funcToken['scope_closer']];
+			if ($tokens[$funcNamePtr]['content'] === '__construct') {
+				$this->checkCtorPropertyPromotions($tokens, $funcToken, $phpcsFile);
+				if (
+					$openingCurly['line'] !== $closingCurly['line']
+					|| $openingCurly['column'] !== $closingCurly['column'] - 1
+				) {
+					$this->checkCtorEmptyBody($tokens, $funcToken, $phpcsFile);
+				}
 			}
 		}
 
@@ -140,23 +157,6 @@ final class ScopeClosingBraceSniff implements Sniff
 				}
 			}
 		}//end if
-
-		if ($tokens[$stackPtr]['code'] === T_FUNCTION) {
-			$funcToken = $tokens[$stackPtr];
-			$funcNamePtr = $phpcsFile->findNext([T_STRING], $stackPtr);
-			$openingCurly = $tokens[$funcToken['scope_opener']];
-			$closingCurly = $tokens[$funcToken['scope_closer']];
-			if (
-				$tokens[$funcNamePtr]['content'] === '__construct'
-				&& (
-					$openingCurly['line'] !== $closingCurly['line']
-					|| $openingCurly['column'] !== $closingCurly['column'] - 1
-				)
-			) {
-				$this->checkCtorPropertyPromotions($tokens, $funcToken, $phpcsFile);
-				$this->checkCtorEmptyBody($tokens, $funcToken, $phpcsFile);
-			}
-		}
 
 	}//end process()
 
