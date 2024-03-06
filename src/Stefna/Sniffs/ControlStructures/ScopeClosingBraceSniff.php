@@ -141,5 +141,40 @@ final class ScopeClosingBraceSniff implements Sniff
 			}
 		}//end if
 
+		if ($tokens[$stackPtr]['code'] === T_FUNCTION) {
+			$funcToken = $tokens[$stackPtr];
+			$funcNamePtr = $phpcsFile->findNext([T_STRING], $stackPtr);
+			$openingCurly = $tokens[$funcToken['scope_opener']];
+			$closingCurly = $tokens[$funcToken['scope_closer']];
+			if (
+				$tokens[$funcNamePtr]['content'] === '__construct'
+				&& (
+					$openingCurly['line'] !== $closingCurly['line']
+					|| $openingCurly['column'] !== $closingCurly['column'] - 1
+				)
+			) {
+				$emptyBody = true;
+				for ($i = $funcToken['scope_opener'] + 1; $i < $funcToken['scope_closer']; $i++) {
+					if ($tokens[$i]['code'] !== T_WHITESPACE) {
+						$emptyBody = false;
+						break;
+					}
+				}
+
+				if ($emptyBody) {
+					$error = 'Constructor with only property promotions should have the curly brackets next to each other';
+					$fix = $phpcsFile->addFixableError($error, $funcToken['scope_opener'], 'ConstructorBrackets');
+
+					if ($fix) {
+						for ($i = $funcToken['scope_opener'] + 1; $i < $funcToken['scope_closer']; $i++) {
+							if ($tokens[$i]['code'] === T_WHITESPACE) {
+								$phpcsFile->fixer->replaceToken($i, '');
+							}
+						}
+					}
+				}
+			}
+		}
+
 	}//end process()
 }//end class
