@@ -73,5 +73,7 @@
 
 	<rule ref="Stefna.Functions.ArgumentTrailingComma"/>
 
-	<rule ref="Squiz.Strings.DoubleQuoteUsage"/>
+	<rule ref="Squiz.Strings.DoubleQuoteUsage">
+		<exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar"/>
+	</rule>
 </ruleset>
