@@ -45,7 +45,7 @@ final class ArgumentTrailingCommaSniff implements Sniff
 		}
 
 		$lastArgumentPtr = $phpcsFile->findPrevious(
-			[T_WHITESPACE],
+			[T_WHITESPACE, T_COMMENT],
 			$argumentEndPtr - 1,
 			$argumentStartPtr,
 			true,
