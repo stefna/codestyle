@@ -153,11 +153,37 @@ final class ScopeClosingBraceSniff implements Sniff
 					|| $openingCurly['column'] !== $closingCurly['column'] - 1
 				)
 			) {
+				$this->checkCtorPropertyPromotions($tokens, $funcToken, $phpcsFile);
 				$this->checkCtorEmptyBody($tokens, $funcToken, $phpcsFile);
 			}
 		}
 
 	}//end process()
+
+	private function checkCtorPropertyPromotions(array $tokens, array $funcToken, File $phpcsFile): void
+	{
+		$occupiedLines = [
+			$funcToken['line'],
+		];
+		for ($i = $funcToken['parenthesis_opener'] + 1; $i < $funcToken['parenthesis_closer']; $i++) {
+			if (in_array($tokens[$i]['code'], Tokens::$scopeModifiers, true)) {
+				if (in_array($tokens[$i]['line'], $occupiedLines, true)) {
+					$fix = $phpcsFile->addFixableError(
+						'Property promotions needs to be on a separate line',
+						$i,
+						'ConstructorPropertyPromotion',
+					);
+
+					if ($fix) {
+						$phpcsFile->fixer->addNewlineBefore($i);
+					}
+				}
+				else {
+					$occupiedLines[] = $tokens[$i]['line'];
+				}
+			}
+		}
+	}
 
 	private function checkCtorEmptyBody(array $tokens, array $funcToken, File $phpcsFile): void
 	{
