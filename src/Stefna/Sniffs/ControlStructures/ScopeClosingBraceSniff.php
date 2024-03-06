@@ -153,28 +153,37 @@ final class ScopeClosingBraceSniff implements Sniff
 					|| $openingCurly['column'] !== $closingCurly['column'] - 1
 				)
 			) {
-				$emptyBody = true;
-				for ($i = $funcToken['scope_opener'] + 1; $i < $funcToken['scope_closer']; $i++) {
-					if ($tokens[$i]['code'] !== T_WHITESPACE) {
-						$emptyBody = false;
-						break;
-					}
-				}
-
-				if ($emptyBody) {
-					$error = 'Constructor with only property promotions should have the curly brackets next to each other';
-					$fix = $phpcsFile->addFixableError($error, $funcToken['scope_opener'], 'ConstructorBrackets');
-
-					if ($fix) {
-						for ($i = $funcToken['scope_opener'] + 1; $i < $funcToken['scope_closer']; $i++) {
-							if ($tokens[$i]['code'] === T_WHITESPACE) {
-								$phpcsFile->fixer->replaceToken($i, '');
-							}
-						}
-					}
-				}
+				$this->checkCtorEmptyBody($tokens, $funcToken, $phpcsFile);
 			}
 		}
 
 	}//end process()
+
+	private function checkCtorEmptyBody(array $tokens, array $funcToken, File $phpcsFile): void
+	{
+		$emptyBody = true;
+		for ($i = $funcToken['scope_opener'] + 1; $i < $funcToken['scope_closer']; $i++) {
+			if ($tokens[$i]['code'] !== T_WHITESPACE) {
+				$emptyBody = false;
+				break;
+			}
+		}
+
+		if (!$emptyBody) {
+			return;
+		}
+
+		$error = 'Constructor with only property promotions should have the curly brackets next to each other';
+		$fix = $phpcsFile->addFixableError($error, $funcToken['scope_opener'], 'ConstructorBrackets');
+
+		if (!$fix) {
+			return;
+		}
+
+		for ($i = $funcToken['scope_opener'] + 1; $i < $funcToken['scope_closer']; $i++) {
+			if ($tokens[$i]['code'] === T_WHITESPACE) {
+				$phpcsFile->fixer->replaceToken($i, '');
+			}
+		}
+	}
 }//end class
