@@ -52,7 +52,6 @@ final class ArgumentTrailingCommaSniff implements Sniff
 		);
 
 		if ($lastArgumentPtr === false) {
-			var_dump('????');
 			return;
 		}
 

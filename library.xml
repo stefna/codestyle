@@ -17,6 +17,7 @@
 		<exclude name="PSR1.Methods.CamelCapsMethodName"/>
 		<exclude name="PSR12.Files.FileHeader"/>
 		<exclude name="PSR12.Files.OpenTag.NotAlone"/>
+		<exclude name="PSR12.ControlStructures.ControlStructureSpacing"/>
 	</rule>
 
 	<!-- 2.3 Lines -->
@@ -64,6 +65,7 @@
 	<!-- special rules for else, elseif, catch, finally -->
 	<rule ref="Stefna.ControlStructures.BracketPlacement"/>
 	<rule ref="Stefna.ControlStructures.TryCatchDeclaration"/>
+	<rule ref="Stefna.ControlStructures.ControlStructureSpacing"/>
 	<!-- needed special control structure check to not collide with ElseCatch -->
 	<rule ref="Stefna.ControlStructures.ControlSignature"/>
 	<rule ref="Stefna.ControlStructures.ScopeClosingBrace"/>
