@@ -72,6 +72,7 @@
 	<rule ref="Stefna.Naming.CamelCapsMethodName"/>
 
 	<rule ref="Stefna.Functions.ArgumentTrailingComma"/>
+	<rule ref="Stefna.Files.FileHeader"/>
 
 	<rule ref="Squiz.Strings.DoubleQuoteUsage">
 		<exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar"/>
