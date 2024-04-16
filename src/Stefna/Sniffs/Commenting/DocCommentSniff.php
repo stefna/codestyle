@@ -13,6 +13,7 @@ class DocCommentSniff extends \PHP_CodeSniffer\Standards\Generic\Sniffs\Commenti
 		'@lang',
 		'@noinspection',
 		'@use',
+		'@deprecated',
 		'@phpstan-ignore-next-line',
 	];
 
