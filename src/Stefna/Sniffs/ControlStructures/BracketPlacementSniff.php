@@ -20,6 +20,7 @@ final class BracketPlacementSniff implements Sniff
 			T_ELSEIF,
 			T_SWITCH,
 			T_CATCH,
+			T_FINALLY,
 		];
 	}
 
