@@ -14,6 +14,7 @@
 		<exclude name="Generic.WhiteSpace.DisallowTabIndent"/>
 		<exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace"/>
 		<exclude name="Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace"/>
+		<exclude name="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnSameLine"/>
 		<exclude name="PSR1.Methods.CamelCapsMethodName"/>
 		<exclude name="PSR12.Files.FileHeader"/>
 		<exclude name="PSR12.Files.OpenTag.NotAlone"/>
@@ -72,6 +73,7 @@
 	<rule ref="Stefna.Naming.CamelCapsMethodName"/>
 
 	<rule ref="Stefna.Functions.ArgumentTrailingComma"/>
+	<rule ref="Stefna.Functions.MultiLineFunctionDeclaration"/>
 	<rule ref="Stefna.Files.FileHeader"/>
 
 	<rule ref="Squiz.Strings.DoubleQuoteUsage">

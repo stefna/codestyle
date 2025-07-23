@@ -90,6 +90,7 @@ final class ScopeClosingBraceSniff implements Sniff
 			$lineIsFinal = $tokens[$lineStart]['code'] === T_FINAL;
 			$lineStartNr = $lineIsFinal ? $lineStart + 2 : $lineStart;
 
+			// logic for class methods
 			if (
 				in_array($tokens[$lineStartNr]['code'], [
 					T_PUBLIC,
@@ -97,9 +98,19 @@ final class ScopeClosingBraceSniff implements Sniff
 					T_PROTECTED,
 				], true)
 				&& isset($tokens[$lineStartNr + 4]['content'])
-				&& $tokens[$lineStartNr + 4]['content'] === '__construct'
 			) {
-				$abortWithError = false;
+				// allow brackets on same line if body is empty
+				if ($scopeEnd === ($scopeStart + 1)) {
+					$abortWithError = false;
+				}
+				if (($scopeEnd - $scopeStart) === 2 && $tokens[$scopeStart + 1]['code'] === T_WHITESPACE) {
+					// allow brackets on same line if body only contains whitespace.
+					// this is fixed in MultiLineFunctionDeclarationSniff
+					$abortWithError = false;
+				}
+				elseif ($tokens[$lineStartNr + 4]['content'] === '__construct') {
+					$abortWithError = false;
+				}
 			}
 
 			if ($abortWithError) {
