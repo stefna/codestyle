@@ -65,6 +65,10 @@ class MultiLineFunctionDeclarationSniff extends BaseSniff
 	 */
 	private function isOneLineMethod($phpcsFile, $stackPtr, $tokens): bool
 	{
+		if (!isset($tokens[$stackPtr]['scope_closer'])) {
+			// properly an abstract method
+			return false;
+		}
 		// We need to actually find the first piece of content on this line,
 		// as if this is a method with tokens before it (public, static etc)
 		// or an if with an else before it, then we need to start the scope
