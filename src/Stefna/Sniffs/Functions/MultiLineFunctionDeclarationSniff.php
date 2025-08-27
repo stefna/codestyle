@@ -96,7 +96,6 @@ class MultiLineFunctionDeclarationSniff extends BaseSniff
 			], true)
 			&& isset($tokens[$lineStartNr + 4]['content'])
 		) {
-			var_dump($tokens[$lineStartNr + 4]['content']);
 			return true;
 		}
 		return false;
