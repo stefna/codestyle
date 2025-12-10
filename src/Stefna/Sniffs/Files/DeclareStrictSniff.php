@@ -8,8 +8,8 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 final class DeclareStrictSniff implements Sniff
 {
 	/**
-	* @return list<T_*>
-	*/
+	 * @return list<T_*>
+	 */
 	public function register(): array
 	{
 		return [T_OPEN_TAG];
@@ -34,14 +34,27 @@ final class DeclareStrictSniff implements Sniff
 		else {
 			$declare = $tokens[$declarePtr];
 
+
 			if ($declare['line'] !== 1) {
 				$error = 'Expected opening parenthesis directly after the declare statement';
 				$fix = $phpcsFile->addFixableError($error, $declarePtr, 'DeclareStrictWrongLineInFile');
 				if ($fix) {
-						$phpcsFile->fixer->addContent($stackPtr, ' ');
+					$phpcsFile->fixer->beginChangeset();
+					$phpcsFile->fixer->addContent($stackPtr, ' ');
 					for ($fixPtr = $stackPtr + 1; $fixPtr < $declarePtr; $fixPtr++) {
 						$phpcsFile->fixer->replaceToken($fixPtr, '');
 					}
+					$phpcsFile->fixer->endChangeset();
+				}
+			}
+
+			if ($tokens[$declarePtr - 1]['type'] === 'T_WHITESPACE' && $tokens[$declarePtr - 1]['content'] !== ' ') {
+				$error = 'Expected single space after opening tag';
+				$fix = $phpcsFile->addFixableError($error, $declarePtr, 'MultipleSpaceAfterOpeningTag');
+				if ($fix) {
+					$phpcsFile->fixer->beginChangeset();
+					$phpcsFile->fixer->replaceToken($declarePtr - 1, ' ');
+					$phpcsFile->fixer->endChangeset();
 				}
 			}
 
