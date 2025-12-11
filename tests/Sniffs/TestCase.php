@@ -10,8 +10,8 @@ use PHP_CodeSniffer\Runner;
 use PHP_CodeSniffer\Util\Common;
 
 /**
-* @based of https://github.com/slevomat/coding-standard/blob/master/SlevomatCodingStandard/Sniffs/TestCase.php
-*/
+ * @based of https://github.com/slevomat/coding-standard/blob/master/SlevomatCodingStandard/Sniffs/TestCase.php
+ */
 class TestCase extends PHPUnitTestCase
 {
 	private static LocalFile $report;
