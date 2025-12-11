@@ -97,5 +97,38 @@ final class DocCommentSniff extends DocCommentSniffBase
 		}
 
 		parent::process($phpcsFile, $stackPtr);
+
+		$this->alignBlock($phpcsFile, $stackPtr, $tokens);
+	}
+	/**
+	 * @param array<int,mixed> $tokens
+	 */
+	private function alignBlock(File $phpcsFile, int $stackPtr, array $tokens): void
+	{
+		$expectedColumn = $tokens[$stackPtr]['column'] + 1;
+		$endTagPtr = $tokens[$stackPtr]['comment_closer'];
+
+		$starPtr = $stackPtr;
+		do {
+			$starPtr = $phpcsFile->findNext([T_DOC_COMMENT_STAR, T_DOC_COMMENT_CLOSE_TAG], $starPtr + 1);
+			if ($tokens[$starPtr]['column'] !== $expectedColumn) {
+				$error = 'Comment stars should align indented with a single space';
+				$fix = $phpcsFile->addFixableError($error, $starPtr, 'MissAlignedBlock');
+				if ($fix) {
+					$phpcsFile->fixer->beginChangeset();
+					if ($tokens[$starPtr]['column'] < $expectedColumn) {
+						$phpcsFile->fixer->addContentBefore($starPtr, ' ');
+					}
+					else {
+						if ($tokens[$starPtr - 1]['line'] === $tokens[$starPtr]['line'] && $tokens[$starPtr - 1]['code'] === T_WHITESPACE) {
+							$phpcsFile->fixer->replaceToken($starPtr - 1, ' ');
+						} else {
+							$phpcsFile->fixer->addContentBefore($starPtr, ' ');
+						}
+					}
+					$phpcsFile->fixer->endChangeset();
+				}
+			}
+		} while ($starPtr !== false && $starPtr < $endTagPtr);
 	}
 }

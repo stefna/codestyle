@@ -11,4 +11,8 @@
 
 /**
  * @other some data
-*/
+ */
+
+/**
+ * @other2 some data
+ */

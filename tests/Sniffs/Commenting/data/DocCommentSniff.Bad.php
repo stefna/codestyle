@@ -12,3 +12,7 @@
 /** @phpstan-ignore-next-line some data */
 
 /** @other some data*/
+
+/**
+* @other2 some data
+*/
