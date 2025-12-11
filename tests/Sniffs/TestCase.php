@@ -38,7 +38,6 @@ class TestCase extends PHPUnitTestCase
 
 	protected function fixFile(string $fileVairant): File
 	{
-
 		$codeSniffer = new Runner();
 		$codeSniffer->config = new Config(['-s']);
 		$codeSniffer->init();

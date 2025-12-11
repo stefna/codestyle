@@ -34,7 +34,6 @@ final class DeclareStrictSniff implements Sniff
 		else {
 			$declare = $tokens[$declarePtr];
 
-
 			if ($declare['line'] !== 1) {
 				$error = 'Expected opening parenthesis directly after the declare statement';
 				$fix = $phpcsFile->addFixableError($error, $declarePtr, 'DeclareStrictWrongLineInFile');
@@ -57,7 +56,6 @@ final class DeclareStrictSniff implements Sniff
 					$phpcsFile->fixer->endChangeset();
 				}
 			}
-
 
 			$this->checkValidDeclare($phpcsFile, $declarePtr);
 		}
