@@ -4,6 +4,7 @@ namespace Stefna\Sniffs\Files;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use Stefna\Utils\TokenCollection;
 
 final class DeclareStrictSniff implements Sniff
 {
@@ -17,7 +18,7 @@ final class DeclareStrictSniff implements Sniff
 
 	public function process(File $phpcsFile, int $stackPtr): void
 	{
-		$tokens = $phpcsFile->getTokens();
+		$tokens = new TokenCollection($phpcsFile->getTokens());
 
 		$declarePtr = $phpcsFile->findNext(T_DECLARE, $stackPtr);
 
@@ -32,9 +33,7 @@ final class DeclareStrictSniff implements Sniff
 			}
 		}
 		else {
-			$declare = $tokens[$declarePtr];
-
-			if ($declare['line'] !== 1) {
+			if ($tokens->line($declarePtr) !== 1) {
 				$error = 'Expected opening parenthesis directly after the declare statement';
 				$fix = $phpcsFile->addFixableError($error, $declarePtr, 'DeclareStrictWrongLineInFile');
 				if ($fix) {
@@ -47,7 +46,7 @@ final class DeclareStrictSniff implements Sniff
 				}
 			}
 
-			if ($tokens[$declarePtr - 1]['type'] === 'T_WHITESPACE' && $tokens[$declarePtr - 1]['content'] !== ' ') {
+			if ($tokens->code($declarePtr - 1) === T_WHITESPACE && $tokens->content($declarePtr - 1) !== ' ') {
 				$error = 'Expected single space after opening tag';
 				$fix = $phpcsFile->addFixableError($error, $declarePtr, 'MultipleSpaceAfterOpeningTag');
 				if ($fix) {
@@ -57,16 +56,14 @@ final class DeclareStrictSniff implements Sniff
 				}
 			}
 
-			$this->checkValidDeclare($phpcsFile, $declarePtr);
+			$this->checkValidDeclare($phpcsFile, $declarePtr, $tokens);
 		}
 	}
 
-	private function checkValidDeclare(File $phpcsFile, int $stackPtr): void
+	private function checkValidDeclare(File $phpcsFile, int $stackPtr, TokenCollection $tokens): void
 	{
-		$tokens = $phpcsFile->getTokens();
-
 		$openParenthesisPtr = $stackPtr + 1;
-		if ($tokens[$openParenthesisPtr]['type'] !== 'T_OPEN_PARENTHESIS') {
+		if ($tokens->code($openParenthesisPtr) !== T_OPEN_PARENTHESIS) {
 			$openParenthesisPtr = $phpcsFile->findNext(T_OPEN_PARENTHESIS, $openParenthesisPtr);
 
 			$error = 'Expected opening parenthesis directly after the declare statement';
@@ -79,7 +76,7 @@ final class DeclareStrictSniff implements Sniff
 		}
 
 		$strictTypePtr = $openParenthesisPtr + 1;
-		if ($tokens[$strictTypePtr]['type'] !== 'T_STRING') {
+		if ($tokens->code($strictTypePtr) !== T_STRING) {
 			$strictTypePtr = $phpcsFile->findNext(T_STRING, $strictTypePtr);
 
 			$error = 'Expected string literal directly after the opening parenthesis';
@@ -90,7 +87,7 @@ final class DeclareStrictSniff implements Sniff
 				}
 			}
 		}
-		if ($tokens[$strictTypePtr]['content'] !== 'strict_types') {
+		if ($tokens->content($strictTypePtr) !== 'strict_types') {
 			$error = 'Expected string literal to be `strict_types`';
 			$fix = $phpcsFile->addFixableError($error, $strictTypePtr, 'WrongStringLiteralInDeclare');
 			if ($fix) {
@@ -99,7 +96,7 @@ final class DeclareStrictSniff implements Sniff
 		}
 
 		$equalPtr = $strictTypePtr + 1;
-		if ($tokens[$equalPtr]['type'] !== 'T_EQUAL') {
+		if ($tokens->code($equalPtr) !== T_EQUAL) {
 			$equalPtr = $phpcsFile->findNext(T_EQUAL, $equalPtr);
 
 			$error = 'Expected equal sign directly after the string literal';
@@ -112,7 +109,7 @@ final class DeclareStrictSniff implements Sniff
 		}
 
 		$onPtr = $equalPtr + 1;
-		if ($tokens[$onPtr]['type'] !== 'T_LNUMBER') {
+		if ($tokens->code($onPtr) !== T_LNUMBER) {
 			$onPtr = $phpcsFile->findNext(T_LNUMBER, $onPtr);
 
 			$error = 'Expected number literal directly after the equal sign';
@@ -123,7 +120,7 @@ final class DeclareStrictSniff implements Sniff
 				}
 			}
 		}
-		if ($tokens[$onPtr]['content'] !== '1') {
+		if ($tokens->content($onPtr) !== '1') {
 			$error = 'Expected number literal directly to be `1`';
 			$fix = $phpcsFile->addFixableError($error, $onPtr, 'WrongNumberLiteralInDeclare');
 			if ($fix) {
@@ -132,7 +129,7 @@ final class DeclareStrictSniff implements Sniff
 		}
 
 		$closeParenthesisPtr = $onPtr + 1;
-		if ($tokens[$closeParenthesisPtr]['type'] !== 'T_CLOSE_PARENTHESIS') {
+		if ($tokens->code($closeParenthesisPtr) !== T_CLOSE_PARENTHESIS) {
 			$closeParenthesisPtr = $phpcsFile->findNext(T_CLOSE_PARENTHESIS, $closeParenthesisPtr);
 
 			$error = 'Expected closeParentes sign directly after the number literal';
@@ -145,7 +142,7 @@ final class DeclareStrictSniff implements Sniff
 		}
 
 		$semiColonPtr = $closeParenthesisPtr + 1;
-		if ($tokens[$semiColonPtr]['type'] !== 'T_SEMICOLON') {
+		if ($tokens->code($semiColonPtr) !== T_SEMICOLON) {
 			$semiColonPtr = $phpcsFile->findNext(T_SEMICOLON, $semiColonPtr);
 
 			$error = 'Expected semicolon directly after the closeParentes sign';
