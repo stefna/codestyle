@@ -18,34 +18,11 @@ class TestCase extends PHPUnitTestCase
 	{
 
 		$codeSniffer = new Runner();
-		$codeSniffer->config = new Config(['-s']);
+		$codeSniffer->config = new Config(['-s', '--standard=phpcs.xml']);
 		$codeSniffer->init();
 
 		$sniffFqcn = static::getSniffFqcn();
 		$sniff = new $sniffFqcn();
-
-		$codeSniffer->ruleset->sniffs = [$sniffFqcn => $sniff];
-
-		$codeSniffer->ruleset->populateTokenListeners();
-
-		$filePath = static::getSniffDataVariantFilePath($fileVairant);
-
-		$file = new LocalFile($filePath, $codeSniffer->ruleset, $codeSniffer->config);
-		$file->process();
-
-		return $file;
-	}
-
-	protected function fixFile(string $fileVairant): File
-	{
-		$codeSniffer = new Runner();
-		$codeSniffer->config = new Config(['-s']);
-		$codeSniffer->init();
-
-		$sniffFqcn = static::getSniffFqcn();
-		$sniff = new $sniffFqcn();
-
-		$codeSniffer->ruleset->sniffs = [$sniffFqcn => $sniff];
 
 		$codeSniffer->ruleset->populateTokenListeners();
 
