@@ -68,7 +68,7 @@
 	<!-- <rule ref="Stefna.ControlStructures.TryCatchDeclaration"/> -->
 	<!-- <rule ref="Stefna.ControlStructures.ControlStructureSpacing"/> -->
 	<!-- needed special control structure check to not collide with ElseCatch -->
-	<!-- <rule ref="Stefna.ControlStructures.ControlSignature"/> -->
+	<rule ref="Stefna.ControlStructures.ControlSignature"/>
 	<!-- <rule ref="Stefna.ControlStructures.ScopeClosingBrace"/> -->
 	<!-- <rule ref="Stefna.Naming.CamelCapsMethodName"/> -->
 	<!---->
