@@ -18,6 +18,13 @@ class MultiLineFunctionDeclarationSniffTest extends TestCase
 		$report = $this->checkFile('SingleLineWhitespace');
 
 		self::assertSniffError($report, 5, 'WhiteSpaceBetweenBraces');
+		self::assertSniffError($report, 7, 'WhiteSpaceBetweenBraces');
+		self::assertSniffError($report, 9, 'WhiteSpaceBetweenBraces');
+		self::assertSniffError($report, 11, 'WhiteSpaceBetweenBraces');
+		self::assertSniffError($report, 13, 'WhiteSpaceBetweenBraces');
+		self::assertSniffError($report, 15, 'WhiteSpaceBetweenBraces');
+
+		self::assertAllErrorsChecked($report);
 
 		self::assertAllFixedInFile($report);
 	}
