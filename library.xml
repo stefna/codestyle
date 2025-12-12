@@ -70,7 +70,7 @@
 	<!-- needed special control structure check to not collide with ElseCatch -->
 	<!-- <rule ref="Stefna.ControlStructures.ControlSignature"/> -->
 	<!-- <rule ref="Stefna.ControlStructures.ScopeClosingBrace"/> -->
-	<!-- <rule ref="Stefna.Naming.CamelCapsMethodName"/> -->
+	<rule ref="Stefna.Naming.CamelCapsMethodName"/>
 	<!---->
 	<!-- <rule ref="Stefna.Functions.ArgumentTrailingComma"/> -->
 	<!-- <rule ref="Stefna.Functions.MultiLineFunctionDeclaration"/> -->
