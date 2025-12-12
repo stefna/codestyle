@@ -8,7 +8,7 @@ class Test
 
 	public function B(): string{ }
 
-	public function C(): string|null { }
+	public function C(): string|null  { }
 
 	public function D($param): string { }
 
