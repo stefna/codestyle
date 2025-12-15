@@ -17,9 +17,23 @@ class CamelCapsMethodNameSniffTest extends TestCase
 	{
 		$report = $this->checkFile('BadNoFix');
 
-		self::assertSniffError($report, 5, 'ScopeNotCamelCaps');
-		self::assertSniffError($report, 6, 'ScopeNotCamelCaps');
-		self::assertSniffError($report, 9, 'NotCamelCaps');
-		self::assertSniffError($report, 10, 'NotCamelCaps');
+		self::assertSniffError($report, 7, 'ScopeNotCamelCaps');
+		self::assertSniffError($report, 8, 'ScopeNotCamelCaps');
+		self::assertSniffError($report, 11, 'NotCamelCaps');
+		self::assertSniffError($report, 12, 'NotCamelCaps');
+	}
+
+	public function testOverrideNoFixErrors(): void
+	{
+		$report = $this->checkFile('ChildClass');
+
+		self::assertSniffError($report, 9, 'ScopeNotCamelCaps');
+	}
+
+	public function testInterfaceNoFixErrors(): void
+	{
+		$report = $this->checkFile('ImplementInterface');
+
+		self::assertSniffError($report, 9, 'ScopeNotCamelCaps');
 	}
 }

@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-final class TestClass
+namespace StefnaTest\Sniffs\Naming\data;
+
+final class CamelCapsMethodNameSniff
 {
 	public function TEST() {}
 	public function TEST_SNAKE() {}
