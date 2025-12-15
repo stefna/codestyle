@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-class Test
+namespace StefnaTest\Sniffs\Functions\data;
+
+class MultiLineFunctionDeclarationSniff
 {
 	public function __construct(private string $str){ }
 
