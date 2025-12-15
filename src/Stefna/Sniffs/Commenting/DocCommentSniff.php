@@ -18,7 +18,8 @@ final class DocCommentSniff extends DocCommentSniffBase
 		'@phpstan-ignore-next-line',
 	];
 
-	public function process(File $phpcsFile, int $stackPtr): void {
+	public function process(File $phpcsFile, int $stackPtr): void
+	{
 		$tokens = $phpcsFile->getTokens();
 		$commentEnd = $phpcsFile->findNext(T_DOC_COMMENT_CLOSE_TAG, $stackPtr + 1);
 		$commentStart = $tokens[$commentEnd]['comment_opener'];
@@ -122,13 +123,15 @@ final class DocCommentSniff extends DocCommentSniffBase
 					else {
 						if ($tokens[$starPtr - 1]['line'] === $tokens[$starPtr]['line'] && $tokens[$starPtr - 1]['code'] === T_WHITESPACE) {
 							$phpcsFile->fixer->replaceToken($starPtr - 1, ' ');
-						} else {
+						}
+						else {
 							$phpcsFile->fixer->addContentBefore($starPtr, ' ');
 						}
 					}
 					$phpcsFile->fixer->endChangeset();
 				}
 			}
-		} while ($starPtr !== false && $starPtr < $endTagPtr);
+		}
+		while ($starPtr !== false && $starPtr < $endTagPtr);
 	}
 }
