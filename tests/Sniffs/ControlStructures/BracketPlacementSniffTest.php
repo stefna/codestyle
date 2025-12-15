@@ -17,21 +17,13 @@ class BracketPlacementSniffTest extends TestCase
 	{
 		$report = $this->checkFile('Errors');
 
-		self::assertSniffError($report, 3, 'CommentAfterControlStatement');
-		self::assertSniffError($report, 5, 'CommentAfterControlStatement');
-		self::assertSniffError($report, 6, 'CommentAfterControlStatement');
-		self::assertSniffError($report, 7, 'CommentAfterControlStatement');
-		self::assertSniffError($report, 7, 'BracketBeforeControlStatement');
-		self::assertSniffError($report, 7, 'CommentAfterControlStatement');
-		self::assertSniffError($report, 7, 'BracketBeforeControlStatement');
-		self::assertSniffError($report, 7, 'CommentAfterControlStatement');
-		self::assertSniffError($report, 8, 'CommentAfterControlStatement');
-		self::assertSniffError($report, 9, 'CommentAfterControlStatement');
-		self::assertSniffError($report, 10, 'CommentAfterControlStatement');
-		self::assertSniffError($report, 10, 'BracketBeforeControlStatement');
-		self::assertSniffError($report, 10, 'CommentAfterControlStatement');
-		self::assertSniffError($report, 10, 'BracketBeforeControlStatement');
-		self::assertSniffError($report, 10, 'CommentAfterControlStatement');
+		self::assertSniffError($report, 3, 'ControlStamentNotAlone');
+		self::assertSniffError($report, 6, 'ControlStamentNotAlone');
+		self::assertSniffError($report, 6, 'ControlStamentNotAlone');
+		self::assertSniffError($report, 9, 'ClosingBracketNotAlone');
+		self::assertSniffError($report, 10, 'ControlStamentNotAlone');
+		self::assertSniffError($report, 10, 'ControlStamentNotAlone');
+		self::assertSniffError($report, 14, 'ControlStamentNotAlone');
 
 		self::assertAllFixedInFile($report);
 	}

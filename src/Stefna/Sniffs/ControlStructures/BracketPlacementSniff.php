@@ -30,24 +30,33 @@ final class BracketPlacementSniff implements Sniff
 	{
 		$tokens = new TokenCollection($phpcsFile->getTokens());
 
-		$previousCloseBracketPtr = $phpcsFile->findPrevious(T_CLOSE_CURLY_BRACKET, $stackPtr - 1);
-		if ($previousCloseBracketPtr) {
-			if ($tokens->sameLine($stackPtr, $previousCloseBracketPtr)) {
-				$error = 'Closing brace must be on a line by itself';
-				$fix = $phpcsFile->addFixableError($error, $previousCloseBracketPtr, 'BracketBeforeControlStatement');
+		$previousTokenPtr = $phpcsFile->findPrevious(T_WHITESPACE, $stackPtr - 1, exclude: true);
+		if ($previousTokenPtr) {
+			if ($tokens->sameLine($previousTokenPtr, $stackPtr)) {
+				$error = 'Control statement needs to be own it\'s own line';
+				$fix = $phpcsFile->addFixableError($error, $previousTokenPtr, 'ControlStamentNotAlone');
 				if ($fix) {
-					$phpcsFile->fixer->addNewline($previousCloseBracketPtr);
+					if ($tokens->code($stackPtr - 1) === T_WHITESPACE) {
+						$phpcsFile->fixer->replaceToken($stackPtr - 1, $phpcsFile->eolChar);
+					}
+					else {
+						$phpcsFile->fixer->addNewline($previousTokenPtr);
+					}
 				}
 			}
 		}
 
-		$nextCommentPtr = $phpcsFile->findNext(Tokens::COMMENT_TOKENS, $stackPtr);
-		if ($nextCommentPtr) {
-			if ($tokens->sameLine($stackPtr, $nextCommentPtr)) {
-				$error = 'Can\'t have comment on the same line as control statement';
-				$fix = $phpcsFile->addError($error, $stackPtr, 'CommentAfterControlStatement');
-				if ($fix) {
-					$phpcsFile->fixer->addNewlineBefore($nextCommentPtr);
+		if ($tokens->hasScopeCloser($stackPtr)) {
+			$scopeCloserPtr = $tokens->scopeCloser($stackPtr);
+
+			$previousTokenPtr = $phpcsFile->findPrevious(T_WHITESPACE, $scopeCloserPtr - 1, exclude: true);
+			if ($previousTokenPtr) {
+				if ($tokens->sameLine($previousTokenPtr, $scopeCloserPtr) && $tokens->code($previousTokenPtr) !== T_OPEN_CURLY_BRACKET) {
+					$error = 'Closing brace must be on a line by itself';
+					$fix = $phpcsFile->addFixableError($error, $previousTokenPtr, 'ClosingBracketNotAlone');
+					if ($fix) {
+						$phpcsFile->fixer->addNewline($previousTokenPtr);
+					}
 				}
 			}
 		}
