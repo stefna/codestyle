@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /** @var some data */
 /** @phpstan-var some data */
