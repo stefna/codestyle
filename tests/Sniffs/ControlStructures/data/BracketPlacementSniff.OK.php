@@ -19,6 +19,6 @@ finally {} // End Finally
 if (false) { // Valid comment
 	strlen('123');
 }
-else {
+else { // Also valid
 	strlen('456');
 }
