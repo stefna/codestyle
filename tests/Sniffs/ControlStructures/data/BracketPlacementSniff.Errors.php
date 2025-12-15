@@ -8,3 +8,9 @@ if (false) {} /* End If */ elseif (false) {} /* End ElseIf */ else {} // End Els
 foreach ([1, 2, 3] as $key => $val) {} // End ForEach
 switch (false) { default: break; } // End Switch
 try {} /* End Try */ catch (\Throwable) {} /* End Catch */ finally {} // End Finally
+
+if (false) {
+	strlen('123');
+} else {
+	strlen('456');
+}
