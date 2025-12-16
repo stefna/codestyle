@@ -4,6 +4,7 @@ namespace Stefna\Sniffs\Commenting;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Commenting\DocCommentSniff as DocCommentSniffBase;
+use Stefna\Utils\TokenCollection;
 
 final class DocCommentSniff extends DocCommentSniffBase
 {
@@ -20,11 +21,11 @@ final class DocCommentSniff extends DocCommentSniffBase
 
 	public function process(File $phpcsFile, int $stackPtr): void
 	{
-		$tokens = $phpcsFile->getTokens();
+		$tokens = new TokenCollection($phpcsFile->getTokens());
 		$commentEnd = $phpcsFile->findNext(T_DOC_COMMENT_CLOSE_TAG, $stackPtr + 1);
-		$commentStart = $tokens[$commentEnd]['comment_opener'];
+		$commentStart = $tokens->commentOpener($commentEnd);
 
-		if ($tokens[$commentStart]['line'] === $tokens[$commentEnd]['line']) {
+		if ($tokens->sameLine($commentStart, $commentEnd)) {
 			$commentText = $phpcsFile->getTokensAsString($commentStart, $commentEnd - $commentStart + 1);
 			[, $commentType] = explode(' ', $commentText);
 			if (in_array($commentType, self::ALLOWED_ONE_LINE_COMMENTS, true)) {
@@ -42,19 +43,19 @@ final class DocCommentSniff extends DocCommentSniffBase
 		$hasContent = false;
 		$currentTagLine = -1;
 		for ($ptr = $stackPtr; $ptr < $commentEnd; $ptr++) {
-			if ($tokens[$ptr]['code'] === T_DOC_COMMENT_STRING && $currentTagLine !== $tokens[$ptr]['line']) {
+			if ($tokens->code($ptr) === T_DOC_COMMENT_STRING && $currentTagLine !== $tokens->line($ptr)) {
 				$hasContent = true;
 			}
-			elseif ($tokens[$ptr]['code'] === T_DOC_COMMENT_TAG) {
-				$currentTagLine = $tokens[$ptr]['line'];
+			elseif ($tokens->code($ptr) === T_DOC_COMMENT_TAG) {
+				$currentTagLine = $tokens->line($ptr);
 				$tagCount++;
-				$ignore = in_array($tokens[$ptr]['content'], ['@inheritdoc', '@noinspection', '@dataProvider'], true);
-				$ignoreIfContent = in_array($tokens[$ptr]['content'], ['@return'], true);
-				$fixable = in_array($tokens[$ptr]['content'], ['@var', '@type'], true);
+				$ignore = in_array($tokens->content($ptr), ['@inheritdoc', '@noinspection', '@dataProvider'], true);
+				$ignoreIfContent = in_array($tokens->content($ptr), ['@return'], true);
+				$fixable = in_array($tokens->content($ptr), ['@var', '@type'], true);
 
 				if ($onlyClassTags !== false) {
 					$onlyClassTags = in_array(
-						$tokens[$ptr]['content'],
+						$tokens->content($ptr),
 						['@property', '@property-read', '@property-write', '@method'],
 						true
 					);
@@ -65,16 +66,19 @@ final class DocCommentSniff extends DocCommentSniffBase
 		if ($ignoreIfContent) {
 			//ignore @return without description
 			if (!$hasContent && $tagCount === 1) {
+				$this->alignBlock($phpcsFile, $stackPtr, $tokens);
 				return;
 			}
 		}
 		elseif ($onlyClassTags) {
 			//ignore rules if there are only @property and @method tags
 			if (!$hasContent) {
+				$this->alignBlock($phpcsFile, $stackPtr, $tokens);
 				return;
 			}
 		}
 		elseif ($ignore && !$hasContent) {
+			$this->alignBlock($phpcsFile, $stackPtr, $tokens);
 			return;
 		}
 
@@ -86,7 +90,7 @@ final class DocCommentSniff extends DocCommentSniffBase
 				// Add space around declaration
 				$phpcsFile->fixer->addContent($stackPtr, ' ');
 				for ($fixPtr = $stackPtr + 1; $fixPtr < $commentEnd; $fixPtr++) {
-					if (in_array($tokens[$fixPtr]['code'], [T_DOC_COMMENT_TAG, T_DOC_COMMENT_STRING], true)) {
+					if (in_array($tokens->code($fixPtr), [T_DOC_COMMENT_TAG, T_DOC_COMMENT_STRING], true)) {
 						$phpcsFile->fixer->addContent($fixPtr, ' ');
 					}
 					else {
@@ -101,32 +105,26 @@ final class DocCommentSniff extends DocCommentSniffBase
 
 		$this->alignBlock($phpcsFile, $stackPtr, $tokens);
 	}
-	/**
-	 * @param array<int,mixed> $tokens
-	 */
-	private function alignBlock(File $phpcsFile, int $stackPtr, array $tokens): void
+
+	private function alignBlock(File $phpcsFile, int $stackPtr, TokenCollection $tokens): void
 	{
-		$expectedColumn = $tokens[$stackPtr]['column'] + 1;
-		$endTagPtr = $tokens[$stackPtr]['comment_closer'];
+		$expectedColumn = $tokens->column($stackPtr) + 1;
+		$endTagPtr = $tokens->commentCloser($stackPtr);
 
 		$starPtr = $stackPtr;
 		do {
 			$starPtr = $phpcsFile->findNext([T_DOC_COMMENT_STAR, T_DOC_COMMENT_CLOSE_TAG], $starPtr + 1);
-			if ($tokens[$starPtr]['column'] !== $expectedColumn) {
+			if (!$tokens->sameLine($stackPtr, $starPtr) && $tokens->column($starPtr) !== $expectedColumn) {
 				$error = 'Comment stars should align indented with a single space';
 				$fix = $phpcsFile->addFixableError($error, $starPtr, 'MissAlignedBlock');
 				if ($fix) {
 					$phpcsFile->fixer->beginChangeset();
-					if ($tokens[$starPtr]['column'] < $expectedColumn) {
+					if ($tokens->column($starPtr) < $expectedColumn) {
 						$phpcsFile->fixer->addContentBefore($starPtr, ' ');
 					}
 					else {
-						if ($tokens[$starPtr - 1]['line'] === $tokens[$starPtr]['line'] && $tokens[$starPtr - 1]['code'] === T_WHITESPACE) {
-							$phpcsFile->fixer->replaceToken($starPtr - 1, ' ');
-						}
-						else {
-							$phpcsFile->fixer->addContentBefore($starPtr, ' ');
-						}
+						$padding = str_repeat(' ', $expectedColumn - 1);
+						$phpcsFile->fixer->replaceToken($starPtr - 1, $padding);
 					}
 					$phpcsFile->fixer->endChangeset();
 				}

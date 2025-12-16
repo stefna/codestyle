@@ -6,22 +6,38 @@ use StefnaTest\Sniffs\TestCase;
 
 class DocCommentSniffTest extends TestCase
 {
-	public function testNoErrors(): void
+	public function testVarError(): void
 	{
-		$report = $this->checkFile('OK');
+		$this->checkFile('Var');
 
-		self::assertNoSniffErrorInFile($report);
+		self::assertSniffError('OneLineTypeDeclare', line: 3);
+
+		self::assertAllFixedInFile();
 	}
 
-	public function testBadErrors(): void
+	public function testTypeError(): void
 	{
-		$report = $this->checkFile('Bad');
+		$this->checkFile('Type');
 
-		self::assertSniffError($report, 3, 'OneLineTypeDeclare');
+		self::assertSniffError('OneLineTypeDeclare', line: 3);
 
-		self::assertSniffError($report, 14, 'ContentAfterOpen');
-		self::assertSniffError($report, 14, 'ContentBeforeClose');
+		self::assertAllFixedInFile();
+	}
 
-		self::assertAllFixedInFile($report);
+	public function testMissAlignedBlockErrors(): void
+	{
+		$this->checkFile('MissAlignedBlock');
+
+		self::assertSniffError('MissAlignedBlock', line: 4);
+		self::assertSniffError('MissAlignedBlock', line: 5);
+		self::assertSniffError('MissAlignedBlock', line: 8);
+		self::assertSniffError('MissAlignedBlock', line: 9);
+
+		self::assertSniffError('MissAlignedBlock', line: 13);
+		self::assertSniffError('MissAlignedBlock', line: 14);
+		self::assertSniffError('MissAlignedBlock', line: 17);
+		self::assertSniffError('MissAlignedBlock', line: 18);
+
+		self::assertAllFixedInFile();
 	}
 }

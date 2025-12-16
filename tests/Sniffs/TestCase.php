@@ -197,7 +197,7 @@ class TestCase extends PHPUnitTestCase
 				foreach ($errorOnPosition as $index => $error) {
 					self::assertTrue(
 						in_array($index, self::$foundErrorsMap[$line][$column]),
-						sprintf('Error has not been checked%s%s', PHP_EOL, self::getFormattedErrors([[$error]])),
+						sprintf('Error has not been checked on line %d column %d%s%s', $line, $column, PHP_EOL, self::getFormattedErrors([[$error]])),
 					);
 				}
 			}

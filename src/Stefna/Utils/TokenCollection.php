@@ -16,6 +16,16 @@ class TokenCollection
 		return $this->tokens[$stackPtr]['code'];
 	}
 
+	public function commentCloser(int $stackPtr): int
+	{
+		return $this->tokens[$stackPtr]['comment_closer'];
+	}
+
+	public function commentOpener(int $stackPtr): int
+	{
+		return $this->tokens[$stackPtr]['comment_opener'];
+	}
+
 	public function column(int $stackPtr): int
 	{
 		return $this->tokens[$stackPtr]['column'];
