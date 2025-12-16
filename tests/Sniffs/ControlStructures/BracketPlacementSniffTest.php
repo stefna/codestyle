@@ -6,25 +6,52 @@ use StefnaTest\Sniffs\TestCase;
 
 class BracketPlacementSniffTest extends TestCase
 {
-	public function testNoErrors(): void
+	public function testDoWhile(): void
 	{
-		$report = $this->checkFile('OK');
+		$this->checkFile('DoWhile');
 
-		self::assertNoSniffErrorInFile($report);
+		self::assertSniffError('ControlStamentNotAlone', line: 3);
+		self::assertSniffError('ControlStamentNotAlone', line: 5);
+
+		self::assertAllFixedInFile();
 	}
 
-	public function testErrors(): void
+	public function testWhile(): void
 	{
-		$report = $this->checkFile('Errors');
+		$this->checkFile('While');
 
-		self::assertSniffError($report, 3, 'ControlStamentNotAlone');
-		self::assertSniffError($report, 6, 'ControlStamentNotAlone');
-		self::assertSniffError($report, 6, 'ControlStamentNotAlone');
-		self::assertSniffError($report, 9, 'ClosingBracketNotAlone');
-		self::assertSniffError($report, 10, 'ControlStamentNotAlone');
-		self::assertSniffError($report, 10, 'ControlStamentNotAlone');
-		self::assertSniffError($report, 14, 'ControlStamentNotAlone');
+		self::assertSniffError('ControlStamentNotAlone', line: 3);
 
-		self::assertAllFixedInFile($report);
+		self::assertAllFixedInFile();
+	}
+
+	public function testFor(): void
+	{
+		$this->checkFile('For');
+
+		self::assertSniffError('ControlStamentNotAlone', line: 3);
+
+		self::assertAllFixedInFile();
+	}
+
+	public function testIf(): void
+	{
+		$this->checkFile('If');
+
+		self::assertSniffError('ControlStamentNotAlone', line: 3, occurance: 3);
+		self::assertSniffError('ControlStamentNotAlone', line: 7);
+		self::assertSniffError('ClosingBracketNotAlone', line: 13);
+
+		self::assertAllFixedInFile();
+	}
+
+	public function testTryCatchFinally(): void
+	{
+		$this->checkFile('TryCatchFinally');
+
+		self::assertSniffError('ControlStamentNotAlone', line: 3, occurance: 2);
+		self::assertSniffError('ControlStamentNotAlone', line: 5, occurance: 2);
+
+		self::assertAllFixedInFile();
 	}
 }
