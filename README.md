@@ -53,3 +53,18 @@ Allows some doc blocks to work as single line:
  * @return
  */
 ```
+
+### ControlStructureSpacingSniff
+
+Adding an exception to allow multiline if-statments to be indented less,
+if started on the same line as the opening parenthesis.
+
+Example:
+
+```php
+	if (isset(
+		$a['key'],
+		$a['key']['subKey'],
+	)) {
+	}
+```
