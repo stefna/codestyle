@@ -128,3 +128,23 @@ function test(): void
 	$var *= 2;
 }
 ```
+
+### StaticSniff
+
+Now enforces closures to be static/nonstatc based on if they need it (`$this` in body)
+Example:
+
+```php
+$closure = static function () {
+	something();
+};
+
+$fn = static fn () => something();
+
+
+$closure = function () {
+	$this->something();
+};
+
+$fn = fn () => $this->something();
+```

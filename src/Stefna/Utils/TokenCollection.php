@@ -66,6 +66,11 @@ class TokenCollection
 		return $this->tokens[$stackPtr]['scope_condition'];
 	}
 
+	public function scopeCloser(int $stackPtr): int
+	{
+		return $this->tokens[$stackPtr]['scope_closer'];
+	}
+
 	public function scopeOpener(int $stackPtr): int
 	{
 		return $this->tokens[$stackPtr]['scope_opener'];
