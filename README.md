@@ -2,7 +2,7 @@
 
 ## Usage
 
-```
+```sh
 vendor/bin/phpcs -n --standard=vendor/stefna/codestyle/library.xml src/
 ```
 
@@ -27,4 +27,29 @@ class Example
 {
 	public function empty(): void {};
 }
+```
+
+### DocCommentSniff
+
+Allows some doc blocks to work as single line:
+
+- @var
+- @phpstan-var
+- @type
+- @lang
+- @noinspection
+- @use
+- @deprecated
+- @phpstan-ignore-next-line
+
+```php
+/** @var string $var */
+```
+
+`@return` doesn't need any description/data:
+
+```php
+/**
+ * @return
+ */
 ```
