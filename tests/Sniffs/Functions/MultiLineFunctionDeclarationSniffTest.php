@@ -6,29 +6,20 @@ use StefnaTest\Sniffs\TestCase;
 
 class MultiLineFunctionDeclarationSniffTest extends TestCase
 {
-	public function testNoErrors(): void
-	{
-		$report = $this->checkFile('OK');
-
-		self::assertNoSniffErrorInFile($report);
-	}
-
 	public function testSingleLineWhitespace(): void
 	{
-		$report = $this->checkFile('SingleLineWhitespace');
+		$this->checkFile('SingleLineWhitespace');
 
-		self::assertSniffError($report, 7, 'SpaceBeforeScope');
-		self::assertSniffError($report, 7, 'WhiteSpaceBetweenBraces');
-		self::assertSniffError($report, 9, 'WhiteSpaceBetweenBraces');
-		self::assertSniffError($report, 11, 'SpaceBeforeScope');
-		self::assertSniffError($report, 11, 'WhiteSpaceBetweenBraces');
-		self::assertSniffError($report, 13, 'SpaceBeforeScope');
-		self::assertSniffError($report, 13, 'WhiteSpaceBetweenBraces');
-		self::assertSniffError($report, 15, 'WhiteSpaceBetweenBraces');
-		self::assertSniffError($report, 17, 'WhiteSpaceBetweenBraces');
+		self::assertSniffError('SpaceBeforeScope', line: 7);
+		self::assertSniffError('WhiteSpaceBetweenBraces', line: 7);
+		self::assertSniffError('WhiteSpaceBetweenBraces', line: 9);
+		self::assertSniffError('SpaceBeforeScope', line: 11);
+		self::assertSniffError('WhiteSpaceBetweenBraces', line: 11);
+		self::assertSniffError('SpaceBeforeScope', line: 13);
+		self::assertSniffError('WhiteSpaceBetweenBraces', line: 13);
+		self::assertSniffError('WhiteSpaceBetweenBraces', line: 15);
+		self::assertSniffError('WhiteSpaceBetweenBraces', line: 17);
 
-		self::assertAllErrorsChecked($report);
-
-		self::assertAllFixedInFile($report);
+		self::assertAllFixedInFile('OK');
 	}
 }

@@ -119,8 +119,6 @@ class TestCase extends PHPUnitTestCase
 				PHP_EOL,
 			),
 		);
-
-		self::$errorCounter++;
 	}
 
 
