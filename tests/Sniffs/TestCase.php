@@ -2,9 +2,9 @@
 
 namespace StefnaTest\Sniffs;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use PHP_CodeSniffer\Config;
-use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Files\LocalFile;
 use PHP_CodeSniffer\Runner;
 use PHP_CodeSniffer\Util\Common;
@@ -219,8 +219,10 @@ class TestCase extends PHPUnitTestCase
 		self::$report->fixer->fixFile();
 		self::assertStringEqualsFile($okFilePath, self::$report->fixer->getContents());
 	}
-
-	public function testNoErrors(): void
+	/**
+	 * @return \Generator<array{string}>
+	 */
+	public static function fixedFilesProvider(): \Generator
 	{
 		$sniffParts = explode('\\', static::getSniffFqcn());
 		$name = array_pop($sniffParts);
@@ -233,9 +235,14 @@ class TestCase extends PHPUnitTestCase
 			$fileName = array_pop($filePathParts);
 			$variant = explode('.', $fileName)[0];
 
-			$report = $this->checkFile($variant . '.fixed');
-			//
-			self::assertNoSniffErrorInFile($report);
+			yield [$variant . '.fixed'];
 		}
+	}
+
+	#[DataProvider('fixedFilesProvider')]
+	public function testNoErrors(string $validFile): void
+	{
+		$this->checkFile($validFile);
+		self::assertNoSniffErrorInFile();
 	}
 }
