@@ -28,12 +28,12 @@ final class ControlStructureSpacingSniff implements Sniff
 	{
 		$tokens = new TokenCollection($phpcsFile->getTokens());
 
-		if (!$tokens->hasParenthesisOpener($stackPtr) || !$tokens->hasParenthesisCloser($stackPtr)) {
+		if ($tokens->code($stackPtr) !== T_IF) {
+			$this->psr12ControlStructureSpacing->process($phpcsFile, $stackPtr);
 			return;
 		}
 
-		if ($tokens->code($stackPtr) !== T_IF) {
-			$this->psr12ControlStructureSpacing->process($phpcsFile, $stackPtr);
+		if (!$tokens->hasParenthesisOpener($stackPtr) || !$tokens->hasParenthesisCloser($stackPtr)) {
 			return;
 		}
 
@@ -45,7 +45,7 @@ final class ControlStructureSpacingSniff implements Sniff
 			return;
 		}
 
-		$next = $phpcsFile->findNext(T_WHITESPACE, $parenOpener + 1, $parenCloser, true);
+		$next = $phpcsFile->findNext(T_WHITESPACE, $parenOpener + 1, $parenCloser, exclude: true);
 		if (!$next) {
 			// No conditions; parse error.
 			return;
