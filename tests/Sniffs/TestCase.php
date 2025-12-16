@@ -14,8 +14,12 @@ use PHP_CodeSniffer\Util\Common;
 */
 class TestCase extends PHPUnitTestCase
 {
-	protected function checkFile(string $fileVairant): File
+	private static LocalFile $report;
+	private static array $foundErrorsMap = [];
+
+	protected function checkFile(string $fileVairant): void
 	{
+		self::$foundErrorsMap = [];
 
 		$codeSniffer = new Runner();
 		$codeSniffer->config = new Config(['-s', '--standard=phpcs.xml']);
@@ -28,10 +32,8 @@ class TestCase extends PHPUnitTestCase
 
 		$filePath = static::getSniffDataVariantFilePath($fileVairant);
 
-		$file = new LocalFile($filePath, $codeSniffer->ruleset, $codeSniffer->config);
-		$file->process();
-
-		return $file;
+		self::$report = new LocalFile($filePath, $codeSniffer->ruleset, $codeSniffer->config);
+		self::$report->process();
 	}
 
 	/**
@@ -47,7 +49,7 @@ class TestCase extends PHPUnitTestCase
 		return Common::getSniffCode(static::getSniffFqcn());
 	}
 
-	protected static function getSniffDataVariantFilePath(string $variant): string
+	private static function getSniffDataFolder(): string
 	{
 		$fqcn = static::getSniffFqcn();
 		$parts = explode('\\', $fqcn);
@@ -55,17 +57,25 @@ class TestCase extends PHPUnitTestCase
 		$group = array_pop($parts);
 
 		return sprintf(
-			'%s/%s/data/%s.%s.php',
+			'%s/%s/data/%s',
 			__DIR__,
 			$group,
 			$name,
-			$variant
 		);
 	}
 
-	protected static function assertNoSniffErrorInFile(File $phpCsFile): void
+	protected static function getSniffDataVariantFilePath(string $variant): string
 	{
-		$errors = $phpCsFile->getErrors();
+		return sprintf(
+			'%s/%s.php',
+			self::getSniffDataFolder(),
+			$variant,
+		);
+	}
+
+	protected static function assertNoSniffErrorInFile(): void
+	{
+		$errors = self::$report->getErrors();
 		$text = sprintf('No errors expected, but %d errors found:', count($errors));
 
 		foreach ($errors as $line => $error) {
@@ -81,21 +91,26 @@ class TestCase extends PHPUnitTestCase
 		self::assertEmpty($errors, $text);
 	}
 
-	protected static function assertSniffError(File $phpcsFile, int $line, string $code, ?string $message = null): void
+	protected static function assertSniffError(string $code, int $line, int $occurance = 1, ?string $message = null): void
 	{
-		$errors = $phpcsFile->getErrors();
+		$errors = self::$report->getErrors();
 		self::assertTrue(isset($errors[$line]), sprintf('Expected error on line %s, but none found.', $line));
 
 		$sniffCode = sprintf('%s.%s', self::getSniffName(), $code);
 
-		self::assertTrue(
-			self::hasError($errors[$line], $sniffCode, $message),
+		$nrOfErrors = self::hasError($errors, $line, $sniffCode, $message);
+
+		self::assertSame(
+			$occurance,
+			$nrOfErrors,
 			sprintf(
-				'Expected error %s%s, but none found on line %d.%sErrors found on line %d:%s%s%s',
+				'Expected %d error %s%s, but %d found on line %d.%sErrors found on line %d:%s%s%s',
+				$occurance,
 				$sniffCode,
 				$message !== null
 					? sprintf(' with message "%s"', $message)
 					: '',
+				$nrOfErrors,
 				$line,
 				PHP_EOL . PHP_EOL,
 				$line,
@@ -108,14 +123,14 @@ class TestCase extends PHPUnitTestCase
 
 
 	/**
-	 * @param list<list<array{source: string, message: string}>> $errorsOnLine
+	 * @param array<int, array<int, list<array{source: string, message: string}>>> $errors
 	 */
-	private static function hasError(array $errorsOnLine, string $sniffCode, ?string $message): bool
+	private static function hasError(array $errors, int $line, string $sniffCode, ?string $message): int
 	{
-		$hasError = false;
+		$nrOfErrors = 0;
 
-		foreach ($errorsOnLine as $errorsOnPosition) {
-			foreach ($errorsOnPosition as $error) {
+		foreach ($errors[$line] as $column => $errorsOnPosition) {
+			foreach ($errorsOnPosition as $index => $error) {
 				/** @var string $errorSource */
 				$errorSource = $error['source'];
 				/** @var string $errorMessage */
@@ -128,13 +143,14 @@ class TestCase extends PHPUnitTestCase
 						|| strpos($errorMessage, $message) !== false
 					)
 				) {
-					$hasError = true;
-					break;
+					++$nrOfErrors;
+					self::$foundErrorsMap[$line] ??= [$column => []];
+					self::$foundErrorsMap[$line][$column][] = $index;
 				}
 			}
 		}
 
-		return $hasError;
+		return $nrOfErrors;
 	}
 
 	/**
@@ -154,12 +170,72 @@ class TestCase extends PHPUnitTestCase
 		);
 	}
 
-	protected static function assertAllFixedInFile(File $phpcsFile): void
+	protected static function assertAllErrorsChecked(): void
 	{
-		$okFilePath = static::getSniffDataVariantFilePath('OK');
+		$errors = self::$report->getErrors();
+		foreach ($errors as $line => $errorsOnLine) {
+			self::assertTrue(
+				array_key_exists($line, self::$foundErrorsMap),
+				sprintf(
+					'No error checked on line %s, but some exist%s%s',
+					$line,
+					PHP_EOL,
+					self::getFormattedErrors($errorsOnLine),
+				),
+			);
+			foreach ($errorsOnLine as $column => $errorOnPosition) {
+				self::assertTrue(
+					array_key_exists($column, self::$foundErrorsMap[$line]),
+					sprintf(
+						'No error checked on line %d column %d, but some exist%s%s',
+						$line,
+						$column,
+						PHP_EOL,
+						self::getFormattedErrors([$errorOnPosition]),
+					),
+				);
+				foreach ($errorOnPosition as $index => $error) {
+					self::assertTrue(
+						in_array($index, self::$foundErrorsMap[$line][$column]),
+						sprintf('Error has not been checked%s%s', PHP_EOL, self::getFormattedErrors([[$error]])),
+					);
+				}
+			}
+		}
+	}
 
-		// $phpcsFile->disableCaching();
-		$phpcsFile->fixer->fixFile();
-		self::assertStringEqualsFile($okFilePath, $phpcsFile->fixer->getContents());
+	protected static function assertAllFixedInFile(?string $fixedVariant = null): void
+	{
+		if ($fixedVariant === null) {
+			$okFilePath = substr_replace(self::$report->getFilename(), '.fixed', -4, 0);
+		}
+		else {
+			$okFilePath = static::getSniffDataVariantFilePath($fixedVariant . '.fixed');
+		}
+
+		self::assertAllErrorsChecked(self::$report);
+
+		// self::$report->disableCaching();
+		self::$report->fixer->fixFile();
+		self::assertStringEqualsFile($okFilePath, self::$report->fixer->getContents());
+	}
+
+	public function testNoErrors(): void
+	{
+		$sniffParts = explode('\\', static::getSniffFqcn());
+		$name = array_pop($sniffParts);
+
+		$searchFiles = sprintf('%s/*.fixed.php', self::getSniffDataFolder(), $name);
+		$goodFiles = glob($searchFiles);
+
+		foreach ($goodFiles as $goodFile) {
+			$filePathParts = explode('/', $goodFile);
+			$fileName = array_pop($filePathParts);
+			$variant = explode('.', $fileName)[0];
+
+			$report = $this->checkFile($variant . '.fixed');
+			//
+			self::assertNoSniffErrorInFile($report);
+		}
 	}
 }
