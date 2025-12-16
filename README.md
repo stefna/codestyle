@@ -68,3 +68,14 @@ Example:
 	)) {
 	}
 ```
+
+### CamelCapsMethodNameSniff
+
+Allow a the custom case of everything being upper case.
+
+```php
+class Example
+{
+	public function METHOD(): void {}
+}
+```
