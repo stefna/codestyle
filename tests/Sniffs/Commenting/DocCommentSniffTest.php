@@ -40,4 +40,13 @@ class DocCommentSniffTest extends TestCase
 
 		self::assertAllFixedInFile();
 	}
+
+	public function testMultiline(): void
+	{
+		$this->checkFile('Multiline');
+
+		self::assertSniffError('ContentAfterOpen', line: 3);
+
+		self::assertAllFixedInFile();
+	}
 }
