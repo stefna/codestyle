@@ -4,7 +4,7 @@ namespace StefnaTest\Sniffs\Functions\data;
 
 class MultiLineFunctionDeclarationSniff
 {
-	public function __construct(private string $str){ }
+	public function __construct(string $str){ }
 
 	public function A() { }
 
