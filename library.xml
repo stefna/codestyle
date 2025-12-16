@@ -72,7 +72,7 @@
 	<!-- <rule ref="Stefna.ControlStructures.ScopeClosingBrace"/> -->
 	<!-- <rule ref="Stefna.Naming.CamelCapsMethodName"/> -->
 	<!---->
-	<!-- <rule ref="Stefna.Functions.ArgumentTrailingComma"/> -->
+	<rule ref="Stefna.Functions.ArgumentTrailingComma"/>
 	<!-- <rule ref="Stefna.Functions.MultiLineFunctionDeclaration"/> -->
 	<rule ref="Stefna.Functions.MultiLineFunctionDeclaration"/>
 	<rule ref="Stefna.Files.DeclareStrict"/>

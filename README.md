@@ -68,3 +68,15 @@ Example:
 	)) {
 	}
 ```
+
+### ArgumentTrailingCommaSniff
+
+Now enforeces that multiline functions have trailing comma.
+Example:
+
+```php
+function example(
+	int $a,
+	int $b,
+): void {}
+```
