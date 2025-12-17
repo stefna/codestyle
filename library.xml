@@ -113,4 +113,5 @@
 	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
 	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>
 	<rule ref="SlevomatCodingStandard.Arrays.DisallowImplicitArrayCreation"/>
+	<rule ref="SlevomatCodingStandard.Attributes.AttributeAndTargetSpacing"/>
 </ruleset>

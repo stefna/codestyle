@@ -22,4 +22,13 @@ class MultiLineFunctionDeclarationSniffTest extends TestCase
 
 		self::assertAllFixedInFile('OK');
 	}
+
+	public function testMultilineDeclaration(): void
+	{
+		$this->checkFile('MultilineDeclaration');
+
+		self::assertSniffError('MultilineNotPure', line: 7);
+
+		self::assertAllFixedInFile();
+	}
 }

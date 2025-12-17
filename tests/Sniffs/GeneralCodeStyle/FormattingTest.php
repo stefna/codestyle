@@ -12,4 +12,11 @@ class FormattingTest extends TestCase
 
 		self::assertAllFixedInFile(skipErrorCheck: true);
 	}
+
+	public function testAttributeMethodDeclaration(): void
+	{
+		$this->checkFile('AttributeMethodDeclaration');
+
+		self::assertAllFixedInFile(skipErrorCheck: true);
+	}
 }
