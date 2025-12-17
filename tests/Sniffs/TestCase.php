@@ -25,9 +25,6 @@ class TestCase extends PHPUnitTestCase
 		$codeSniffer->config = new Config(['-s', '--standard=phpcs.xml']);
 		$codeSniffer->init();
 
-		$sniffFqcn = static::getSniffFqcn();
-		$sniff = new $sniffFqcn();
-
 		$codeSniffer->ruleset->populateTokenListeners();
 
 		$filePath = static::getSniffDataVariantFilePath($fileVairant);
@@ -204,7 +201,7 @@ class TestCase extends PHPUnitTestCase
 		}
 	}
 
-	protected static function assertAllFixedInFile(?string $fixedVariant = null): void
+	protected static function assertAllFixedInFile(?string $fixedVariant = null, bool $skipErrorCheck = false): void
 	{
 		if ($fixedVariant === null) {
 			$okFilePath = substr_replace(self::$report->getFilename(), '.fixed', -4, 0);
@@ -213,7 +210,9 @@ class TestCase extends PHPUnitTestCase
 			$okFilePath = static::getSniffDataVariantFilePath($fixedVariant . '.fixed');
 		}
 
-		self::assertAllErrorsChecked(self::$report);
+		if (!$skipErrorCheck) {
+			self::assertAllErrorsChecked(self::$report);
+		}
 
 		// self::$report->disableCaching();
 		self::$report->fixer->fixFile();

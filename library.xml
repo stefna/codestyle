@@ -98,4 +98,6 @@
 			<property name="linesCountAfterNamespace" value="1" />
 		</properties>
 	</rule>
+	<rule ref="SlevomatCodingStandard.Classes.ClassMemberSpacing"/>
+	<rule ref="SlevomatCodingStandard.Classes.MethodSpacing"/>
 </ruleset>
