@@ -35,7 +35,7 @@ final class BlankLinesSniff implements Sniff
 		// Go directly to 2nd line
 		$nextPtr = $this->firstOnNextLine($phpcsFile, $nextPtr, $tokens);
 
-		do {
+		while ($nextPtr < $scopeCloser) {
 			$lineDiff = $tokens->line($nextPtr) - $prevLine - 1;
 
 			if ($lineDiff > self::MAX_LINES_SPACE) {
@@ -65,7 +65,6 @@ final class BlankLinesSniff implements Sniff
 			$prevLine = $tokens->line($nextPtr);
 			$nextPtr = $this->firstOnNextLine($phpcsFile, $nextPtr, $tokens);
 		}
-		while ($nextPtr < $scopeCloser);
 	}
 
 	private function firstLine(File $phpcsFile, int $stackPtr, TokenCollection $tokens): int|false
