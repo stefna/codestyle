@@ -79,6 +79,7 @@
 	<!-- <rule ref="Stefna.Functions.ArgumentTrailingComma"/> -->
 	<!-- <rule ref="Stefna.Functions.MultiLineFunctionDeclaration"/> -->
 	<rule ref="Stefna.Functions.MultiLineFunctionDeclaration"/>
+	<rule ref="Stefna.Functions.BlankLines"/>
 	<rule ref="Stefna.Files.DeclareStrict"/>
 
 	<rule ref="Squiz.Strings.DoubleQuoteUsage">

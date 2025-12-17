@@ -103,3 +103,28 @@ Example:
 ```php
 if (false) {}
 ```
+
+### BlanLinesSniff
+
+Enforces that inside a function, the first line after the opening `{` can't be empty
+Example:
+
+```php
+function test(): void
+{
+	$var = 'This has to be the first line';
+}
+```
+
+It also enforces that the spacing between rows can be 0 or 1 blank line.
+Example:
+
+```php
+function test(): void
+{
+	$var = 0;
+
+	$var += 1;
+	$var *= 2;
+}
+```
