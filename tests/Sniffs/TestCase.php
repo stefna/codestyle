@@ -10,8 +10,8 @@ use PHP_CodeSniffer\Runner;
 use PHP_CodeSniffer\Util\Common;
 
 /**
-* @based of https://github.com/slevomat/coding-standard/blob/master/SlevomatCodingStandard/Sniffs/TestCase.php
-*/
+ * @based of https://github.com/slevomat/coding-standard/blob/master/SlevomatCodingStandard/Sniffs/TestCase.php
+ */
 class TestCase extends PHPUnitTestCase
 {
 	private static LocalFile $report;
@@ -197,7 +197,7 @@ class TestCase extends PHPUnitTestCase
 				foreach ($errorOnPosition as $index => $error) {
 					self::assertTrue(
 						in_array($index, self::$foundErrorsMap[$line][$column]),
-						sprintf('Error has not been checked%s%s', PHP_EOL, self::getFormattedErrors([[$error]])),
+						sprintf('Error has not been checked on line %d column %d%s%s', $line, $column, PHP_EOL, self::getFormattedErrors([[$error]])),
 					);
 				}
 			}
