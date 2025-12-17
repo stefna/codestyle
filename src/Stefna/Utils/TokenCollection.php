@@ -101,7 +101,6 @@ class TokenCollection
 		return isset($this->tokens[$stackPtr]['parenthesis_opener']);
 	}
 
-
 	public function sameLine(int $firstPtr, int $secondPtr): bool
 	{
 		return $this->tokens[$firstPtr]['line'] === $this->tokens[$secondPtr]['line'];
