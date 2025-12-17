@@ -16,9 +16,19 @@ class TokenCollection
 		return $this->tokens[$stackPtr]['code'];
 	}
 
+	public function column(int $stackPtr): int
+	{
+		return $this->tokens[$stackPtr]['column'];
+	}
+
 	public function content(int $stackPtr): string
 	{
 		return $this->tokens[$stackPtr]['content'];
+	}
+
+	public function length(int $stackPtr): int
+	{
+		return $this->tokens[$stackPtr]['length'];
 	}
 
 	public function line(int $stackPtr): int
@@ -29,6 +39,16 @@ class TokenCollection
 	public function parenthesisCloser(int $stackPtr): int
 	{
 		return $this->tokens[$stackPtr]['parenthesis_closer'];
+	}
+
+	public function parenthesisOpener(int $stackPtr): int
+	{
+		return $this->tokens[$stackPtr]['parenthesis_opener'];
+	}
+
+	public function scopeCloser(int $stackPtr): int
+	{
+		return $this->tokens[$stackPtr]['scope_closer'];
 	}
 
 	public function scopeCondition(int $stackPtr): int
@@ -46,6 +66,11 @@ class TokenCollection
 		return isset($this->tokens[$stackPtr]);
 	}
 
+	public function hasContent(int $stackPtr): bool
+	{
+		return isset($this->tokens[$stackPtr]['content']);
+	}
+
 	public function hasScopeCloser(int $stackPtr): bool
 	{
 		return isset($this->tokens[$stackPtr]['scope_closer']);
@@ -59,6 +84,11 @@ class TokenCollection
 	public function hasParenthesisCloser(int $stackPtr): bool
 	{
 		return isset($this->tokens[$stackPtr]['parenthesis_closer']);
+	}
+
+	public function hasParenthesisOpener(int $stackPtr): bool
+	{
+		return isset($this->tokens[$stackPtr]['parenthesis_opener']);
 	}
 
 

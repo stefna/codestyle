@@ -16,3 +16,15 @@ The MIT License (MIT). Please see [License File](LICENSE) for more information.
 
 Now enforces that `<?php declare(strict_types=1);`
 becomes the first line in the file.
+
+### MultiLineFunctionDeclarationSniff
+
+Add support for empty methods on a single line.
+Example:
+
+```php
+class Example
+{
+	public function empty(): void {};
+}
+```
