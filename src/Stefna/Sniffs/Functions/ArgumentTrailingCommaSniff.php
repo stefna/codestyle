@@ -32,7 +32,7 @@ final class ArgumentTrailingCommaSniff implements Sniff
 			[T_WHITESPACE, T_COMMENT],
 			$argumentEndPtr - 1,
 			$argumentStartPtr,
-			exclude: true
+			exclude: true,
 		);
 
 		if (!$lastArgumentPtr) {
