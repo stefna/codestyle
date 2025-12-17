@@ -6,37 +6,31 @@ use StefnaTest\Sniffs\TestCase;
 
 class DeclareStrictSniffTest extends TestCase
 {
-	public function testNoErrors(): void
-	{
-		$report = $this->checkFile('OK');
-
-		self::assertNoSniffErrorInFile($report);
-	}
-
 	public function testMissingErrors(): void
 	{
-		$report = $this->checkFile('Missing');
+		$this->checkFile('Missing');
 
-		self::assertSniffError($report, 1, 'MissingDeclareStrictInFile');
+		self::assertSniffError(code: 'MissingDeclareStrictInFile', line: 1);
 
-		self::assertAllFixedInFile($report);
+		self::assertAllFixedInFile(fixedVariant: 'OK');
 	}
 
 	public function testWrongLineErrors(): void
 	{
-		$report = $this->checkFile('WrongLine');
+		$this->checkFile('WrongLine');
 
-		self::assertSniffError($report, 3, 'DeclareStrictWrongLineInFile');
+		self::assertSniffError(code: 'DeclareStrictWrongLineInFile', line: 3);
+		self::assertSniffError(code: 'MultipleSpaceAfterOpeningTag', line: 3);
 
-		self::assertAllFixedInFile($report);
+		self::assertAllFixedInFile(fixedVariant: 'OK');
 	}
 
 	public function testMultipleSpacesErrors(): void
 	{
-		$report = $this->checkFile('MultipleWhitespace');
+		$this->checkFile('MultipleWhitespace');
 
-		self::assertSniffError($report, 1, 'MultipleSpaceAfterOpeningTag');
+		self::assertSniffError(code: 'MultipleSpaceAfterOpeningTag', line: 1);
 
-		self::assertAllFixedInFile($report);
+		self::assertAllFixedInFile(fixedVariant: 'OK');
 	}
 }
