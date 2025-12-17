@@ -39,6 +39,23 @@ final class MultiLineFunctionDeclarationSniff extends BaseSniff
 				return;
 			}
 		}
+		elseif (
+			!$tokensCollection->sameLine(
+				$tokensCollection->parenthesisOpener($stackPtr),
+				$tokensCollection->parenthesisCloser($stackPtr)
+			)
+		) {
+			$parenthesisStart = $tokensCollection->parenthesisOpener($stackPtr);
+			$nextPtr = $phpcsFile->findNext(T_WHITESPACE, $parenthesisStart + 1, exclude: true);
+
+			if ($tokensCollection->sameLine($parenthesisStart, $nextPtr)) {
+				$error = 'Multiline function declarations can not start on the first line';
+				$fix = $phpcsFile->addFixableError($error, $nextPtr, 'MultilineNotPure');
+				if ($fix) {
+					$phpcsFile->fixer->addNewline($parenthesisStart);
+				}
+			}
+		}
 
 		parent::processSingleLineDeclaration($phpcsFile, $stackPtr, $tokens);
 	}

@@ -29,6 +29,18 @@ class Example
 }
 ```
 
+Enforce multi row parameters to not be on the first row.
+Example:
+
+```php
+class Example
+{
+	public function test(
+		#[Attribute]
+		int $param
+	)
+}
+
 ### DocCommentSniff
 
 Allows some doc blocks to work as single line:
