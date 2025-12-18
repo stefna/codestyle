@@ -81,4 +81,5 @@
 	<rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine"/>
 	<rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash"/>
 	<rule ref="SlevomatCodingStandard.Attributes.DisallowAttributesJoining"/>
+	<rule ref="SlevomatCodingStandard.Attributes.DisallowMultipleAttributesPerLine"/>
 </ruleset>
