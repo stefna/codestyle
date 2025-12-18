@@ -87,4 +87,5 @@
 			<property name="searchAnnotations" value="true" />
 		</properties>
 	</rule>
+	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>
 </ruleset>
