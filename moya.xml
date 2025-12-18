@@ -76,4 +76,5 @@
 			<property name="linesCountAfterNamespace" value="1" />
 		</properties>
 	</rule>
+	<rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses"/>
 </ruleset>
