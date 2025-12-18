@@ -83,8 +83,6 @@ final class BlankLinesSniff implements Sniff
 			];
 			$fix = $phpcsFile->addFixableError($error, $nextPtr, 'FunctionScopeContentSpacing', $data);
 			if ($fix) {
-				$lastToken = $phpcsFile->findPrevious(T_WHITESPACE, $nextPtr - 1, exclude: true);
-
 				$phpcsFile->fixer->beginChangeset();
 
 				for ($ptr = $stackPtr + 1; $ptr < $nextPtr; $ptr++) {
