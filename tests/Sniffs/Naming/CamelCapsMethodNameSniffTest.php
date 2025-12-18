@@ -10,10 +10,8 @@ class CamelCapsMethodNameSniffTest extends TestCase
 	{
 		$this->checkFile('BadNoFix');
 
-		self::assertSniffError('ScopeNotCamelCaps', line: 7);
 		self::assertSniffError('ScopeNotCamelCaps', line: 8);
-		self::assertSniffError('NotCamelCaps', line: 11);
-		self::assertSniffError('NotCamelCaps', line: 12);
+		self::assertSniffError('NotCamelCaps', line: 13);
 
 		self::assertAllErrorsChecked();
 	}

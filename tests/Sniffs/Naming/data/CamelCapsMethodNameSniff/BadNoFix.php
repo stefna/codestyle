@@ -8,5 +8,7 @@ final class CamelCapsMethodNameSniff
 	public function test_snake() {}
 }
 
-function TEST() {}
-function TEST_SNAKE() {}
+function TEST()
+{}
+function TEST_SNAKE()
+{}
