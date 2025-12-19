@@ -78,4 +78,5 @@
 	</rule>
 	<rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses"/>
 	<rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/>
+	<rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine"/>
 </ruleset>
