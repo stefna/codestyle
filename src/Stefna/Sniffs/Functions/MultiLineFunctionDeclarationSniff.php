@@ -42,7 +42,7 @@ final class MultiLineFunctionDeclarationSniff extends BaseSniff
 		elseif (
 			!$tokensCollection->sameLine(
 				$tokensCollection->parenthesisOpener($stackPtr),
-				$tokensCollection->parenthesisCloser($stackPtr)
+				$tokensCollection->parenthesisCloser($stackPtr),
 			)
 		) {
 			$parenthesisStart = $tokensCollection->parenthesisOpener($stackPtr);

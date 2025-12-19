@@ -6,7 +6,7 @@ class X
 {
 	public function setFoo(
 		#[Beep]
-		Foo $new
+		Foo $new,
 	): void {
 	}
 }
