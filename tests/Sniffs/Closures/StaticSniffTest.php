@@ -10,19 +10,9 @@ class StaticSniffTest extends TestCase
 	{
 		$this->checkFile('Static');
 
-		self::assertSniffError('MissingStaticOnClosure', line: 3);
-		self::assertSniffError('MissingStaticOnClosure', line: 7);
+		self::assertSniffWarning('MissingStaticOnClosure', line: 3);
+		self::assertSniffWarning('MissingStaticOnClosure', line: 7);
 
-		self::assertAllFixedInFile();
-	}
-
-	public function testNonStatic(): void
-	{
-		$this->checkFile('NonStatic');
-
-		self::assertSniffError('InvalidStaticOnClosure', line: 3);
-		self::assertSniffError('InvalidStaticOnClosure', line: 7);
-
-		self::assertAllFixedInFile();
+		self::assertAllWarningsChecked();
 	}
 }

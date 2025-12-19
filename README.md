@@ -131,7 +131,7 @@ function test(): void
 
 ### StaticSniff
 
-Now enforces closures to be static/nonstatc based on if they need it (`$this` in body)
+Now warns about closures to be static if they don't have `$this` in body
 Example:
 
 ```php
@@ -140,11 +140,4 @@ $closure = static function () {
 };
 
 $fn = static fn () => something();
-
-
-$closure = function () {
-	$this->something();
-};
-
-$fn = fn () => $this->something();
 ```
