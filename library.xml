@@ -91,4 +91,10 @@
 			<property name="searchAnnotations" value="true" />
 		</properties>
 	</rule>
+	<rule ref="SlevomatCodingStandard.Namespaces.NamespaceSpacing">
+		<properties>
+			<property name="linesCountBeforeNamespace" value="1" />
+			<property name="linesCountAfterNamespace" value="1" />
+		</properties>
+	</rule>
 </ruleset>
