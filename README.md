@@ -37,9 +37,10 @@ class Example
 {
 	public function test(
 		#[Attribute]
-		int $param
+		int $param,
 	)
 }
+```
 
 ### DocCommentSniff
 
