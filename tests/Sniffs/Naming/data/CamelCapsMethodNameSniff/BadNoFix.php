@@ -5,6 +5,7 @@ namespace StefnaTest\Sniffs\Naming\data;
 final class CamelCapsMethodNameSniff
 {
 	public function tESt() {}
+
 	public function test_snake() {}
 }
 

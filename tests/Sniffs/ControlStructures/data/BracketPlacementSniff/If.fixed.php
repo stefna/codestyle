@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/** start if */
+/* start if */
 if (false) {} /* End If */
 elseif (false) {} /* End ElseIf */
 else {} // End Else
