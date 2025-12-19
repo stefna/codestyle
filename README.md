@@ -79,3 +79,27 @@ class Example
 	public function METHOD(): void {}
 }
 ```
+
+### BracketPlacementSniff
+
+Two rules are enfored by this.
+
+First, a control statement has to be on it's own line.
+Example:
+
+```php
+if (false) {
+    doSomething();
+}
+else {
+    doSomethingElse();
+}
+```
+
+Second, foces the closing bracket to be on it's own line
+except if it's on a single line with an empty body.
+Example:
+
+```php
+if (false) {}
+```
