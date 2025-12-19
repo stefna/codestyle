@@ -79,6 +79,7 @@
 	<!-- <rule ref="Stefna.Functions.ArgumentTrailingComma"/> -->
 	<!-- <rule ref="Stefna.Functions.MultiLineFunctionDeclaration"/> -->
 	<rule ref="Stefna.Functions.MultiLineFunctionDeclaration"/>
+	<rule ref="Stefna.Functions.BlankLines"/>
 	<rule ref="Stefna.Files.DeclareStrict"/>
 
 	<rule ref="Squiz.Strings.DoubleQuoteUsage">
@@ -97,4 +98,6 @@
 			<property name="linesCountAfterNamespace" value="1" />
 		</properties>
 	</rule>
+	<rule ref="SlevomatCodingStandard.Classes.ClassMemberSpacing"/>
+	<rule ref="SlevomatCodingStandard.Classes.MethodSpacing"/>
 </ruleset>
