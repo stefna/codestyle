@@ -83,4 +83,5 @@
 	<rule ref="SlevomatCodingStandard.Attributes.DisallowAttributesJoining"/>
 	<rule ref="SlevomatCodingStandard.Attributes.DisallowMultipleAttributesPerLine"/>
 	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowYodaComparison"/>
+	<rule ref="SlevomatCodingStandard.Exceptions.DeadCatch"/>
 </ruleset>
