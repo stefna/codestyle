@@ -9,7 +9,7 @@ class X
 	public function __construct(
 		public int $y = 53,
 
-		public bool $q = true,
+		public bool $q = true
 	) {}
 
 
@@ -31,3 +31,8 @@ class X
 
 	}
 }
+
+random_int(
+	0,
+	1
+);

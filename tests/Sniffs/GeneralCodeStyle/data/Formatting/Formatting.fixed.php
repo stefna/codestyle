@@ -27,3 +27,8 @@ class X
 		echo 'Z';
 	}
 }
+
+random_int(
+	0,
+	1,
+);
