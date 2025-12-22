@@ -128,3 +128,16 @@ function test(): void
 	$var *= 2;
 }
 ```
+
+### StaticSniff
+
+Now warns about closures to be static if they don't have `$this` in body
+Example:
+
+```php
+$closure = static function () {
+	something();
+};
+
+$fn = static fn () => something();
+```

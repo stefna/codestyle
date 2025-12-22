@@ -16,6 +16,7 @@ class TestCase extends PHPUnitTestCase
 {
 	private static LocalFile $report;
 	private static array $foundErrorsMap = [];
+	private static array $foundWarningsMap = [];
 
 	protected function checkFile(string $fileVairant): void
 	{
@@ -90,6 +91,36 @@ class TestCase extends PHPUnitTestCase
 		self::assertEmpty($errors, $text);
 	}
 
+	protected static function assertSniffWarning(string $code, int $line, int $occurance = 1, ?string $message = null): void
+	{
+		$warnings = self::$report->getWarnings();
+		self::assertTrue(isset($warnings[$line]), sprintf('Expected warning on line %s, but none found.', $line));
+
+		$sniffCode = sprintf('%s.%s', self::getSniffName(), $code);
+
+		$nrOfWarnings = self::hasWarnings($warnings, $line, $sniffCode, $message);
+
+		self::assertSame(
+			$occurance,
+			$nrOfWarnings,
+			sprintf(
+				'Expected %d warning %s%s, but %d found on line %d.%sWarnings found on line %d:%s%s%s',
+				$occurance,
+				$sniffCode,
+				$message !== null
+					? sprintf(' with message "%s"', $message)
+					: '',
+				$nrOfWarnings,
+				$line,
+				PHP_EOL . PHP_EOL,
+				$line,
+				PHP_EOL,
+				self::getFormattedErrors($warnings[$line]),
+				PHP_EOL,
+			),
+		);
+	}
+
 	protected static function assertSniffError(string $code, int $line, int $occurance = 1, ?string $message = null): void
 	{
 		$errors = self::$report->getErrors();
@@ -118,6 +149,37 @@ class TestCase extends PHPUnitTestCase
 				PHP_EOL,
 			),
 		);
+	}
+
+	/**
+	 * @param array<int, array<int, list<array{source: string, message: string}>>> $warnings
+	 */
+	private static function hasWarnings(array $warnings, int $line, string $sniffCode, ?string $message): int
+	{
+		$nrOfWarnings = 0;
+
+		foreach ($warnings[$line] as $column => $warningsOnPosition) {
+			foreach ($warningsOnPosition as $index => $warning) {
+				/** @var string $errorSource */
+				$warningSource = $warning['source'];
+				/** @var string $errorMessage */
+				$warningMessage = $warning['message'];
+
+				if (
+					$warningSource === $sniffCode
+					&& (
+						$message === null
+						|| strpos($warningMessage, $message) !== false
+					)
+				) {
+					++$nrOfWarnings;
+					self::$foundWarningsMap[$line] ??= [$column => []];
+					self::$foundWarningsMap[$line][$column][] = $index;
+				}
+			}
+		}
+
+		return $nrOfWarnings;
 	}
 
 	/**
@@ -166,6 +228,40 @@ class TestCase extends PHPUnitTestCase
 				$errors,
 			),
 		);
+	}
+
+	protected static function assertAllWarningsChecked(): void
+	{
+		$warnings = self::$report->getWarnings();
+		foreach ($warnings as $line => $warningsOnLine) {
+			self::assertTrue(
+				array_key_exists($line, self::$foundWarningsMap),
+				sprintf(
+					'No warning checked on line %s, but some exist%s%s',
+					$line,
+					PHP_EOL,
+					self::getFormattedErrors($warningsOnLine),
+				),
+			);
+			foreach ($warningsOnLine as $column => $warningOnPosition) {
+				self::assertTrue(
+					array_key_exists($column, self::$foundWarningsMap[$line]),
+					sprintf(
+						'No warning checked on line %d column %d, but some exist%s%s',
+						$line,
+						$column,
+						PHP_EOL,
+						self::getFormattedErrors([$warningOnPosition]),
+					),
+				);
+				foreach ($warningOnPosition as $index => $warning) {
+					self::assertTrue(
+						in_array($index, self::$foundWarningsMap[$line][$column]),
+						sprintf('Warning has not been checked on line %d column %d%s%s', $line, $column, PHP_EOL, self::getFormattedErrors([[$warning]])),
+					);
+				}
+			}
+		}
 	}
 
 	protected static function assertAllErrorsChecked(): void

@@ -81,6 +81,7 @@
 	<rule ref="Stefna.Functions.MultiLineFunctionDeclaration"/>
 	<rule ref="Stefna.Functions.BlankLines"/>
 	<rule ref="Stefna.Files.DeclareStrict"/>
+	<rule ref="Stefna.Closures.Static"/>
 
 	<rule ref="Squiz.Strings.DoubleQuoteUsage">
 		<exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar"/>
