@@ -20,7 +20,6 @@ final class CamelCapsMethodNameSniff extends GenericCamelCapsFunctionNameSniff
 			return;
 		}
 
-
 		parent::processTokenWithinScope($phpcsFile, $stackPtr, $currScope);
 	}
 }

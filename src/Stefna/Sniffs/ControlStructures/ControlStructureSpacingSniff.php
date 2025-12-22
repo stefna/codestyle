@@ -4,9 +4,9 @@ namespace Stefna\Sniffs\ControlStructures;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Standards\PSR12\Sniffs\ControlStructures\ControlStructureSpacingSniff as Psr12ControlStructureSpacingSniff;
 use PHP_CodeSniffer\Util\Tokens;
 use Stefna\Utils\TokenCollection;
-use PHP_CodeSniffer\Standards\PSR12\Sniffs\ControlStructures\ControlStructureSpacingSniff as Psr12ControlStructureSpacingSniff;
 
 final class ControlStructureSpacingSniff implements Sniff
 {

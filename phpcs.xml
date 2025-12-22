@@ -8,4 +8,12 @@
 	<rule ref="./library.xml"/>
 
 	<file>src</file>
+
+	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
+	<properties>
+		<property name="rootNamespaces" type="array">
+				<element key="src/Stefna" value="Stefna"/>
+		</property>
+	</properties>
+</rule>
 </ruleset>

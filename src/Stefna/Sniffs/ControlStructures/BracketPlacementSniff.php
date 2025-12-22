@@ -4,7 +4,6 @@ namespace Stefna\Sniffs\ControlStructures;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use PHP_CodeSniffer\Util\Tokens;
 use Stefna\Utils\TokenCollection;
 
 final class BracketPlacementSniff implements Sniff

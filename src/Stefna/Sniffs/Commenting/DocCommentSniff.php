@@ -57,7 +57,7 @@ final class DocCommentSniff extends DocCommentSniffBase
 					$onlyClassTags = in_array(
 						$tokens->content($ptr),
 						['@property', '@property-read', '@property-write', '@method'],
-						true
+						true,
 					);
 				}
 			}
