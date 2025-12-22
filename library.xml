@@ -112,4 +112,5 @@
 	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName"/>
 	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
 	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>
+	<rule ref="SlevomatCodingStandard.Arrays.DisallowImplicitArrayCreation"/>
 </ruleset>
