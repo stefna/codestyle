@@ -2,12 +2,12 @@
 
 namespace StefnaTest\Sniffs;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\LocalFile;
 use PHP_CodeSniffer\Runner;
 use PHP_CodeSniffer\Util\Common;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 /**
  * @based of https://github.com/slevomat/coding-standard/blob/master/SlevomatCodingStandard/Sniffs/TestCase.php
@@ -24,6 +24,8 @@ class TestCase extends PHPUnitTestCase
 		$codeSniffer = new Runner();
 		$codeSniffer->config = new Config(['-s', '--standard=phpcs.xml']);
 		$codeSniffer->init();
+
+		$codeSniffer->ruleset->ignorePatterns['SlevomatCodingStandard.Files.TypeNameMatchesFileName.NoMatchBetweenTypeNameAndFileName'] = ['/tests/*/data/' => ''];
 
 		$codeSniffer->ruleset->populateTokenListeners();
 
@@ -117,7 +119,6 @@ class TestCase extends PHPUnitTestCase
 			),
 		);
 	}
-
 
 	/**
 	 * @param array<int, array<int, list<array{source: string, message: string}>>> $errors
@@ -218,6 +219,7 @@ class TestCase extends PHPUnitTestCase
 		self::$report->fixer->fixFile();
 		self::assertStringEqualsFile($okFilePath, self::$report->fixer->getContents());
 	}
+
 	/**
 	 * @return \Generator<array{string}>
 	 */
