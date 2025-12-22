@@ -5,6 +5,6 @@ namespace StefnaTest\Sniffs\Functions\data\MultiLineFunctionDeclarationSniff;
 class MultilineDeclaration
 {
 	public function setFoo(#[Beep]
-	Foo $new): void
+	Foo $new,): void
 	{}
 }
