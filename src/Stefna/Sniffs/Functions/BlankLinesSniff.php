@@ -21,6 +21,11 @@ final class BlankLinesSniff implements Sniff
 	{
 		$tokens = new TokenCollection($phpcsFile->getTokens());
 
+		if (!$tokens->hasScopeOpener($stackPtr) || !$tokens->hasScopeCloser($stackPtr)) {
+			// Ignore pure definitions
+			return;
+		}
+
 		$scopeOpener = $tokens->scopeOpener($stackPtr);
 		$scopeCloser = $tokens->scopeCloser($stackPtr);
 
