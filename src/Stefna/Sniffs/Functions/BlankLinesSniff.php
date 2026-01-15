@@ -104,7 +104,7 @@ final class BlankLinesSniff implements Sniff
 
 	private function firstOnNextLine(File $phpcsFile, int $stackPtr, TokenCollection $tokens): int
 	{
-		$next = $stackPtr + 1;
+		$next = $stackPtr;
 		do {
 			$next = $phpcsFile->findNext(T_WHITESPACE, $next + 1, exclude: true);
 		}
