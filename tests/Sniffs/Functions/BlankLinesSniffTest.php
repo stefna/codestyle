@@ -25,4 +25,11 @@ class BlankLinesSniffTest extends TestCase
 
 		self::assertAllFixedInFile();
 	}
+
+	public function testComment(): void
+	{
+		$this->checkFile('Comments');
+
+		self::assertNoSniffErrorInFile();
+	}
 }
