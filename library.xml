@@ -19,6 +19,7 @@
 		<exclude name="PSR12.Files.FileHeader"/>
 		<exclude name="PSR12.Files.OpenTag.NotAlone"/>
 		<exclude name="PSR12.ControlStructures.ControlStructureSpacing"/>
+		<exclude name="PSR2.Classes.PropertyDeclaration"/>
 	</rule>
 
 	<!-- 2.3 Lines -->
@@ -78,6 +79,7 @@
 	<!---->
 	<!-- <rule ref="Stefna.Functions.ArgumentTrailingComma"/> -->
 	<!-- <rule ref="Stefna.Functions.MultiLineFunctionDeclaration"/> -->
+	<rule ref="Stefna.Classes.PropertyDeclaration"/>
 	<rule ref="Stefna.Functions.MultiLineFunctionDeclaration"/>
 	<rule ref="Stefna.Functions.BlankLines"/>
 	<rule ref="Stefna.Files.DeclareStrict"/>

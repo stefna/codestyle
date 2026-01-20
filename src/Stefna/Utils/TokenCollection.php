@@ -11,6 +11,11 @@ class TokenCollection
 		private array $tokens,
 	) {}
 
+	public function bracketCloser(int $stackPtr): int
+	{
+		return $this->tokens[$stackPtr]['bracket_closer'];
+	}
+
 	public function code(int $stackPtr): int|string
 	{
 		return $this->tokens[$stackPtr]['code'];
