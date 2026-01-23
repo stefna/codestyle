@@ -35,8 +35,12 @@ final class PropertyPromotionSniff implements Sniff
 		}
 	}
 
-	private function singleLinePropertyPromotion(File $phpcsFile, int $stackPtr, int $argumentListEnd, TokenCollection $tokens): void
-	{
+	private function singleLinePropertyPromotion(
+		File $phpcsFile,
+		int $stackPtr,
+		int $argumentListEnd,
+		TokenCollection $tokens,
+	): void {
 		$previousSeparator = $phpcsFile->findPrevious([T_OPEN_PARENTHESIS, T_COMMA], $stackPtr);
 
 		if ($tokens->sameLine($previousSeparator, $stackPtr)) {
