@@ -14,30 +14,30 @@ final class PropertyDeclarationSniff extends PropertyDeclarationSniffBase
 
 		$tokens = new TokenCollection($phpcsFile->getTokens());
 
-		$nextToken = $phpcsFile->findNext(T_WHITESPACE, $stackPtr + 1, exclude: true);
+		$lastToken = $this->lastSymbolOnLine($phpcsFile, $stackPtr, $tokens);
 
-		if ($tokens->content($nextToken) === '{') {
-			$this->removeInvalidErrors($phpcsFile, $nextToken, $tokens);
+		if ($tokens->content($lastToken) === '{') {
+			$this->removeInvalidErrors($phpcsFile, $stackPtr, $tokens);
 			return $this->processHookVariable($phpcsFile, $stackPtr, $tokens);
 		}
 
 		return null;
 	}
 
+	private function lastSymbolOnLine(File $phpcsFile, int $stackPtr, TokenCollection $tokens): int
+	{
+		$currentLine = $tokens->line($stackPtr);
+		while ($tokens->line($stackPtr) == $currentLine) {
+			$stackPtr++;
+		}
+
+		return $phpcsFile->findPrevious(T_WHITESPACE, $stackPtr - 1, exclude: true);
+	}
+
 	private function removeInvalidErrors(File $phpcsFile, int $stackPtr, TokenCollection $tokens): void
 	{
 		$removeError = function (int $line, int $column): void {
-			$toRemove = [];
-
-			foreach ($this->errors as $line => $columns) {
-				foreach ($columns as $column => $errors) {
-					if ($errors[0]['source'] === 'Stefna.Classes.PropertyDeclaration.Multiple') {
-						$toRemove[$line] = $column;
-					}
-				}
-			}
-
-			foreach ($toRemove as $line => $column) {
+			if ($this->errors[$line][$column][0]['source'] === 'Stefna.Classes.PropertyDeclaration.Multiple') {
 				unset($this->errors[$line][$column]);
 				if (empty($this->errors[$line])) {
 					unset($this->errors[$line]);
@@ -53,12 +53,17 @@ final class PropertyDeclarationSniff extends PropertyDeclarationSniffBase
 
 	private function processHookVariable(File $phpcsFile, int $stackPtr, TokenCollection $tokens): int
 	{
-		$stackPtr = $phpcsFile->findNext(T_WHITESPACE, $stackPtr + 1, exclude: true);
+		$stackPtr = $this->lastSymbolOnLine($phpcsFile, $stackPtr, $tokens);
 		$hookScopeEnd = $tokens->bracketCloser($stackPtr);
 
 		while ($stackPtr < $hookScopeEnd) {
 			$stackPtr = $phpcsFile->findNext(T_WHITESPACE, $stackPtr + 1, exclude: true);
+
 			if ($tokens->code($stackPtr) !== T_STRING) {
+				if ($tokens->content($stackPtr) === '}') {
+					continue;
+				}
+
 				$error = 'Expected hook get/set; found %s';
 				$data = [
 					$tokens->content($stackPtr),
@@ -66,7 +71,15 @@ final class PropertyDeclarationSniff extends PropertyDeclarationSniffBase
 				$phpcsFile->addError($error, $stackPtr, 'InvalidHook', $data);
 			}
 
+			$isSetHook = $tokens->content($stackPtr) === 'set';
+
 			$nextToken = $phpcsFile->findNext(T_WHITESPACE, $stackPtr + 1, exclude: true);
+
+			// Skip over parameter list
+			if ($isSetHook && $tokens->content($nextToken) === '(') {
+				$nextToken = $phpcsFile->findNext(T_WHITESPACE, $tokens->parenthesisCloser($nextToken) + 1, exclude: true);
+			}
+
 			if ($tokens->content($nextToken) === '{') {
 				if ($stackPtr === $nextToken - 1) {
 					$error = 'Expected 1 space between hook and "{"; found 0';
@@ -90,7 +103,7 @@ final class PropertyDeclarationSniff extends PropertyDeclarationSniffBase
 					}
 				}
 
-				$stackPtr = $phpcsFile->findNext(T_WHITESPACE, $tokens->bracketCloser($nextToken) + 1, exclude: true);
+				$stackPtr = $phpcsFile->findNext(T_WHITESPACE, $tokens->bracketCloser($nextToken), exclude: true);
 			}
 		}
 
