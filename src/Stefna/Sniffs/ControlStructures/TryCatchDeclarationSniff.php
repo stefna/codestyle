@@ -33,7 +33,7 @@ final class TryCatchDeclarationSniff implements Sniff
 	{
 		$tokens = new TokenCollection($phpcsFile->getTokens());
 
-		$nextNonEmpty = $phpcsFile->findNext(Tokens::$emptyTokens, ($stackPtr + 1), null, true);
+		$nextNonEmpty = $phpcsFile->findNext(Tokens::EMPTY_TOKENS, ($stackPtr + 1), null, true);
 		if ($nextNonEmpty === false) {
 			return;
 		}
@@ -157,7 +157,7 @@ final class TryCatchDeclarationSniff implements Sniff
 				// Skip all empty tokens on the same line as the opener.
 				if (
 					$tokens->sameLine($next, $opener)
-					&& (isset(Tokens::$emptyTokens[$code]) === true
+					&& (isset(Tokens::EMPTY_TOKENS[$code]) === true
 						|| $code === T_CLOSE_TAG)
 				) {
 					continue;
@@ -195,7 +195,7 @@ final class TryCatchDeclarationSniff implements Sniff
 			$tokens->code($stackPtr) === T_CATCH ||
 			$tokens->code($stackPtr) === T_FINALLY
 		) {
-			$closer = $phpcsFile->findPrevious(Tokens::$emptyTokens, ($stackPtr - 1), null, true);
+			$closer = $phpcsFile->findPrevious(Tokens::EMPTY_TOKENS, ($stackPtr - 1), null, true);
 			if ($closer === false || $tokens->code($closer) !== T_CLOSE_CURLY_BRACKET) {
 				return;
 			}
@@ -226,7 +226,7 @@ final class TryCatchDeclarationSniff implements Sniff
 			$error = 'Expected 1 space after closing brace; %s found';
 			$data = [$found];
 
-			if ($phpcsFile->findNext(Tokens::$commentTokens, ($closer + 1), $stackPtr) !== false) {
+			if ($phpcsFile->findNext(Tokens::COMMENT_TOKENS, ($closer + 1), $stackPtr) !== false) {
 				// Comment found between closing brace and keyword, don't auto-fix.
 				$phpcsFile->addError($error, $closer, 'SpaceAfterCloseBrace', $data);
 				return;
