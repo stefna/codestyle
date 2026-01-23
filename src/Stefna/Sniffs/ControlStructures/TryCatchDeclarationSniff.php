@@ -26,7 +26,7 @@ final class TryCatchDeclarationSniff implements Sniff
 	/**
 	 * Processes this test, when one of its tokens is encountered.
 	 *
-	 * @param \PHP_CodeSniffer\Files\File $phpcsFile The file being scanned.
+	 * @param File $phpcsFile The file being scanned.
 	 * @param int $stackPtr The position of the current token in the stack passed in $tokens.
 	 */
 	public function process(File $phpcsFile, int $stackPtr): void
@@ -47,7 +47,7 @@ final class TryCatchDeclarationSniff implements Sniff
 		}
 		else {
 			if ($tokens->content($stackPtr + 1) !== ' ') {
-				if (strpos($tokens->content($stackPtr + 1), $phpcsFile->eolChar) !== false) {
+				if (str_contains($tokens->content($stackPtr + 1), $phpcsFile->eolChar)) {
 					$found = 'newline';
 				}
 				else {
@@ -87,7 +87,7 @@ final class TryCatchDeclarationSniff implements Sniff
 			$content = $phpcsFile->getTokensAsString(($closer + 1), ($opener - $closer - 1));
 
 			if (trim($content) === '') {
-				if (strpos($content, $phpcsFile->eolChar) !== false) {
+				if (str_contains($content, $phpcsFile->eolChar)) {
 					$found = 'newline';
 				}
 				else {
