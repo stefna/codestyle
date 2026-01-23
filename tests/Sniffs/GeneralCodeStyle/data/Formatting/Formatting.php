@@ -6,11 +6,9 @@ class X
 {
 	public const string X = 'string';
 	public string $var = '';
-	public function __construct(
-		public int $y = 53,
-
-		public bool $q = true
-	) {}
+	public function __construct(public int $y = 53, public bool $q = true)
+	{
+	}
 
 
 	public function test(): void

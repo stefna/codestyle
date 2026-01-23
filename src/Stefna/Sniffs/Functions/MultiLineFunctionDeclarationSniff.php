@@ -38,15 +38,6 @@ final class MultiLineFunctionDeclarationSniff extends BaseSniff
 			if ($scopeEnd === ($scopeStart + 1)) {
 				return;
 			}
-
-			if (($scopeEnd - $scopeStart) === 2 && $tokensCollection->code($scopeStart + 1) === T_WHITESPACE) {
-				$error = 'Whitespace not allowed between braces on empty method';
-				$fix = $phpcsFile->addFixableError($error, $scopeEnd, 'WhiteSpaceBetweenBraces');
-				if ($fix === true) {
-					$phpcsFile->fixer->replaceToken($scopeStart + 1, '');
-				}
-				return;
-			}
 		}
 
 		parent::processSingleLineDeclaration($phpcsFile, $stackPtr, $tokens);

@@ -2,11 +2,9 @@
 
 namespace StefnaTest\Sniffs\Functions\data;
 
-class MultiLineFunctionDeclarationSniff
+class Check
 {
 	public function __construct(string $str) {}
 
-	public function A(): string {}
-
-	public function B(): string|null {}
+	public function A() {}
 }
