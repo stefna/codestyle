@@ -8,7 +8,6 @@ use Stefna\Utils\TokenCollection;
 
 final class EmptyFunctionBodySniff implements Sniff
 {
-
 	public function register(): array
 	{
 		return [
@@ -28,7 +27,7 @@ final class EmptyFunctionBodySniff implements Sniff
 		$scopeOpener = $tokens->scopeOpener($stackPtr);
 		$scopeCloser = $tokens->scopeCloser($stackPtr);
 
-		$next = $phpcsFile->findNext(T_WHITESPACE,  $scopeOpener+1, exclude: true);
+		$next = $phpcsFile->findNext(T_WHITESPACE, $scopeOpener + 1, exclude: true);
 
 		if ($next == $scopeCloser) {
 			if ($scopeCloser !== $scopeOpener + 1) {
