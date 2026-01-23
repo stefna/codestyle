@@ -2,4 +2,4 @@
 
 try {} /* End Try */ catch (\Throwable) {} /* End Catch */ finally {} // End Finally
 
-try {} catch (\Throwable) {}  finally {}
+try {} catch (\Throwable) {} finally {}
