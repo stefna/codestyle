@@ -19,13 +19,14 @@
 		<exclude name="PSR12.Files.FileHeader"/>
 		<exclude name="PSR12.Files.OpenTag.NotAlone"/>
 		<exclude name="PSR12.ControlStructures.ControlStructureSpacing"/>
+		<exclude name="PSR2.Classes.PropertyDeclaration"/>
 	</rule>
 
 	<!-- 2.3 Lines -->
 	<!-- 2.4 Indenting -->
 
-	<!-- Code MUST use an indent of 4 spaces, and MUST NOT use tabs for indenting. -->
-	<rule ref="Generic.WhiteSpace.ScopeIndent">
+	<!-- Code MUST use an indent of 1 tab, and MUST NOT use spaces for indenting. -->
+	<rule ref="Stefna.WhiteSpace.ScopeIndent">
 		<properties>
 			<property name="ignoreIndentationTokens" type="array">
 				<element value="T_COMMENT"/>
@@ -78,6 +79,7 @@
 	<!---->
 	<!-- <rule ref="Stefna.Functions.ArgumentTrailingComma"/> -->
 	<!-- <rule ref="Stefna.Functions.MultiLineFunctionDeclaration"/> -->
+	<rule ref="Stefna.Classes.PropertyDeclaration"/>
 	<rule ref="Stefna.Functions.MultiLineFunctionDeclaration"/>
 	<rule ref="Stefna.Functions.BlankLines"/>
 	<rule ref="Stefna.Files.DeclareStrict"/>

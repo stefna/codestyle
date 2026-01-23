@@ -11,6 +11,16 @@ class TokenCollection
 		private array $tokens,
 	) {}
 
+	public function bracketCloser(int $stackPtr): int
+	{
+		return $this->tokens[$stackPtr]['bracket_closer'];
+	}
+
+	public function bracketOpener(int $stackPtr): int
+	{
+		return $this->tokens[$stackPtr]['bracket_opener'];
+	}
+
 	public function code(int $stackPtr): int|string
 	{
 		return $this->tokens[$stackPtr]['code'];
@@ -46,6 +56,11 @@ class TokenCollection
 		return $this->tokens[$stackPtr]['line'];
 	}
 
+	public function nestedParenthesis(int $stackPtr): int
+	{
+		return $this->tokens[$stackPtr]['nestedParenthesis'];
+	}
+
 	public function parenthesisCloser(int $stackPtr): int
 	{
 		return $this->tokens[$stackPtr]['parenthesis_closer'];
@@ -71,6 +86,26 @@ class TokenCollection
 		return $this->tokens[$stackPtr]['scope_opener'];
 	}
 
+	public function sniffCode(int $stackPtr): string
+	{
+		return $this->tokens[$stackPtr]['sniffCode'];
+	}
+
+	public function sniffProperty(int $stackPtr): string
+	{
+		return $this->tokens[$stackPtr]['sniffProperty'];
+	}
+
+	public function sniffPropertyValue(int $stackPtr): string
+	{
+		return $this->tokens[$stackPtr]['sniffPropertyValue'];
+	}
+
+	public function type(int $stackPtr): string
+	{
+		return $this->tokens[$stackPtr]['type'];
+	}
+
 	public function has(int $stackPtr): bool
 	{
 		return isset($this->tokens[$stackPtr]);
@@ -86,9 +121,19 @@ class TokenCollection
 		return isset($this->tokens[$stackPtr]['scope_closer']);
 	}
 
+	public function hasScopeCondition(int $stackPtr): bool
+	{
+		return isset($this->tokens[$stackPtr]['scope_condition']);
+	}
+
 	public function hasScopeOpener(int $stackPtr): bool
 	{
 		return isset($this->tokens[$stackPtr]['scope_opener']);
+	}
+
+	public function hasNestedParenthesis(int $stackPtr): bool
+	{
+		return isset($this->tokens[$stackPtr]['nestedParenthesis']);
 	}
 
 	public function hasParenthesisCloser(int $stackPtr): bool
@@ -99,6 +144,11 @@ class TokenCollection
 	public function hasParenthesisOpener(int $stackPtr): bool
 	{
 		return isset($this->tokens[$stackPtr]['parenthesis_opener']);
+	}
+
+	public function hasSniffCode(int $stackPtr): bool
+	{
+		return isset($this->tokens[$stackPtr]['sniffCode']);
 	}
 
 	public function sameLine(int $firstPtr, int $secondPtr): bool
