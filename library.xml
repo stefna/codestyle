@@ -65,7 +65,7 @@
 
 	<!-- special rules for else, elseif, catch, finally -->
 	<rule ref="Stefna.ControlStructures.BracketPlacement"/>
-	<!-- <rule ref="Stefna.ControlStructures.TryCatchDeclaration"/> -->
+	<rule ref="Stefna.ControlStructures.TryCatchDeclaration"/>
 	<rule ref="Stefna.ControlStructures.ControlStructureSpacing"/>
 	<!-- needed special control structure check to not collide with ElseCatch -->
 	<!-- <rule ref="Stefna.ControlStructures.ControlSignature"/> -->
