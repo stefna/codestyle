@@ -5,17 +5,11 @@ namespace StefnaTest\Sniffs\ControlStructures;
 try {
 	// do stuff
 }
-catch (\Throwable) {
-}
-finally {
-}
+catch (\Throwable $e) {}
 
 try {
 	// do stuff
 }
-catch (\Throwable) {
-	// Do nothing
-}
-finally {
+catch (\Throwable $e) {
 	// Do nothing
 }

@@ -44,14 +44,4 @@ class BracketPlacementSniffTest extends TestCase
 
 		self::assertAllFixedInFile();
 	}
-
-	public function testTryCatchFinally(): void
-	{
-		$this->checkFile('TryCatchFinally');
-
-		self::assertSniffError('ControlStamentNotAlone', line: 3, occurance: 2);
-		self::assertSniffError('ControlStamentNotAlone', line: 5, occurance: 2);
-
-		self::assertAllFixedInFile();
-	}
 }

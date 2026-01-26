@@ -28,7 +28,6 @@ switch (false) {
 try {
 }
 catch (\Throwable) {}
-finally {}
 
 if (false) { // Valid comment
 	strlen('123');

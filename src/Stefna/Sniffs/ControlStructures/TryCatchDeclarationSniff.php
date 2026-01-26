@@ -254,10 +254,24 @@ final class TryCatchDeclarationSniff implements Sniff
 		$scopeOpener = $tokens->scopeOpener($stackPtr);
 		$scopeCloser = $tokens->scopeCloser($stackPtr);
 
-		$next = $phpcsFile->findNext(T_WHITESPACE, $scopeOpener + 1, exclude: true);
+		$next = $phpcsFile->findNext(Tokens::EMPTY_TOKENS, $scopeOpener + 1, exclude: true);
 
 		if ($next == $scopeCloser) {
-			if ($scopeCloser !== $scopeOpener + 1) {
+			if ($tokens->code($stackPtr) === T_CATCH) {
+				$this->catchEmpty($phpcsFile, $stackPtr, $scopeOpener, $scopeCloser, $tokens);
+			}
+			else {
+				$this->finallyEmpty($phpcsFile, $stackPtr, $scopeOpener, $scopeCloser);
+			}
+		}
+	}
+
+	private function catchEmpty(File $phpcsFile, int $stackPtr, int $scopeOpener, int $scopeCloser, TokenCollection $tokens): void
+	{
+		$variable = $phpcsFile->findNext(T_VARIABLE, $stackPtr, $scopeOpener);
+
+		if ($variable === false) {
+			if ($scopeCloser !== ($scopeOpener + 1)) {
 				$error = 'Whitespace not allowed between braces on empty method';
 				$fix = $phpcsFile->addFixableError($error, $scopeOpener, 'WhiteSpaceBetweenBraces');
 				if ($fix) {
@@ -268,6 +282,26 @@ final class TryCatchDeclarationSniff implements Sniff
 					$phpcsFile->fixer->endChangeset();
 				}
 			}
+		}
+		else {
+			$error = 'The catch can not have an exception variable and be empty';
+			$fix = $phpcsFile->addFixableError($error, $variable, 'EmptyBodyCaughtException');
+			if ($fix) {
+				$phpcsFile->fixer->replaceToken($variable, '');
+			}
+		}
+	}
+
+	private function finallyEmpty(File $phpcsFile, int $stackPtr, int $scopeOpener, int $scopeCloser): void
+	{
+		$error = 'Finally can not be empty';
+		$fix = $phpcsFile->addFixableError($error, $scopeOpener, 'EmptyFinally');
+		if ($fix) {
+			$phpcsFile->fixer->beginChangeset();
+			for ($i = $stackPtr; $i < $scopeCloser + 1; $i++) {
+				$phpcsFile->fixer->replaceToken($i, '');
+			}
+			$phpcsFile->fixer->endChangeset();
 		}
 	}
 }
