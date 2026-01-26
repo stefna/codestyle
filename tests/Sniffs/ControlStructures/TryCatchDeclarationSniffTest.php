@@ -11,6 +11,20 @@ class TryCatchDeclarationSniffTest extends TestCase
 		$this->checkFile('TryCatch');
 
 		self::assertSniffError('WhiteSpaceBetweenBraces', line:8);
+		self::assertSniffError('EmptyFinally', line:10);
+
+		self::assertSniffError('WhiteSpaceBetweenBraces', line:16);
+		self::assertSniffError('EmptyFinally', line:19);
+
+		self::assertAllFixedInFile();
+	}
+
+	public function testTryCatchWithVariable(): void
+	{
+		$this->checkFile('TryCatchWithVariable');
+
+		self::assertSniffError('EmptyBodyCaughtException', line:8);
+		self::assertSniffError('EmptyBodyCaughtException', line:13);
 
 		self::assertAllFixedInFile();
 	}
