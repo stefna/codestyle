@@ -1,6 +1,7 @@
 {
 	"name": "stefna/codestyle",
 	"description": "Custom php sniffer for stefna",
+	"type": "phpcodesniffer-standard",
 	"license": "MIT",
 	"authors": [
 		{
