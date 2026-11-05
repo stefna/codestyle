@@ -7,6 +7,5 @@ class MultilineDeclaration
 	public function setFoo(
 		#[Beep]
 		Foo $new,
-	): void {
-	}
+	): void {}
 }
