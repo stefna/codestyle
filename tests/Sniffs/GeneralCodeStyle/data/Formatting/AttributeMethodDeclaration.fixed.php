@@ -7,6 +7,5 @@ class X
 	public function setFoo(
 		#[Beep]
 		Foo $new,
-	): void {
-	}
+	): void {}
 }
