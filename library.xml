@@ -85,6 +85,7 @@
 	<rule ref="Stefna.Files.DeclareStrict"/>
 	<rule ref="Stefna.Closures.Static"/>
 	<rule ref="Stefna.Functions.EmptyFunctionBody"/>
+	<rule ref="Stefna.Functions.NamedArgumentOrder"/>
 
 	<rule ref="Squiz.Strings.DoubleQuoteUsage">
 		<exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar"/>
